@@ -1,0 +1,258 @@
+$enable-rounded: false;
+
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~bootstrap-vue/src/index.scss';
+
+a {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.vue-notification-group {
+  margin-top: 100px;
+}
+
+.icon {
+  width: 24px;
+}
+
+.btn {
+  .icon {
+    width: 16px;
+  }
+}
+
+.table {
+  td:last-of-type {
+    text-align: right;
+  }
+}
+
+.radio-button {
+  display: inline-block;
+
+  .icon {
+    width: 40px;
+  }
+
+  .radio-label {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  input[type="radio"] {
+    display: none;
+
+    &:not(:disabled) ~ label {
+      cursor: pointer;
+    }
+  }
+
+  label {
+    height: 100%;
+    display: block;
+    background: white;
+    border: 2px solid #e10635;
+    padding: 30px 10px;
+    text-align: center;
+    position: relative;
+    width: 200px;
+  }
+
+  input[type="radio"]:checked + label {
+    background-color: #fffff3;
+
+    &::after {
+      font-size: 25px;
+      content: "\2713";
+      width: 25px;
+      height: 25px;
+      line-height: 25px;
+      border: 2px double #e10635;
+      background-color: #e10635;
+      z-index: 999;
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      color: #fff;
+      text-align: center;
+    }
+  }
+}
+
+.radio-question {
+  border: 2px solid #e10635;
+  overflow: hidden;
+
+  .custom-control-label {
+    cursor: pointer;
+    padding: 20px 20px 20px 35px;
+    width: 100%;
+
+    &::before {
+      top: 25px;
+      left: 8px;
+
+      border:#adb5bd solid 3px
+    }
+  }
+
+  input[type="radio"]:checked + label {
+    background-color: #fffff3;
+    box-shadow: 0 0 0 300px #fffff3;
+    width: 100%;
+  }
+
+  .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: transparent;
+    border-color: #e10635;
+  }
+}
+
+.market-question {
+  line-height: 4rem;
+
+  .inline-input {
+    display: inline-block;
+    width: auto;
+    width: 220px;
+
+    margin: 0 10px 0 10px;
+  }
+
+  .b-form-datepicker {
+    &.form-control {
+      width: 220px;
+      display: inline-flex !important;
+    }
+  }
+}
+
+.outcomes-list {
+  padding: 0 0 0 20px;
+  margin: 0;
+
+  li {
+    padding: 10px;
+  }
+
+  .form-control {
+    max-width: 400px;
+  }
+}
+
+.wizard-card-footer {
+  margin-top: 30px;
+}
+
+.market {
+  border: 1px solid #D9D4CF;
+  margin-bottom: 30px;
+  padding: 10px;
+}
+
+.question {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: block;
+  font-size: 1.5rem;
+}
+
+.outcomes {
+  list-style-type: none;
+  display: grid;
+  padding: 0;
+  margin: 0;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 1em 20px;
+
+  li {
+    background-color: #52616a;
+    padding: 8px 5px;
+    color: #fff;
+    display: block;
+  }
+
+  .outcome-details {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.refresh-button {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+
+  .icon {
+    width: 16px;
+  }
+}
+
+.footer {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.navbar-search-form {
+  .form-control {
+    box-shadow: none;
+    border-color: #fff;
+
+    &:hover,
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  .search-button {
+    background-color: #fff;
+    color: #111;
+    border-color: transparent;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: #111 !important;
+      background-color: #fff !important;
+      border-color: transparent !important;
+      box-shadow: none !important;
+    }
+  }
+}
+
+.badge {
+  &.open {
+    background-color: $blue;
+  }
+
+  &.inactive {
+    background-color: $secondary;
+  }
+
+  &.reporting {
+    background-color: $warning;
+    color: $dark;
+  }
+
+  &.reported {
+    background-color: $info;
+  }
+
+  &.disputing {
+    background-color: $danger;
+  }
+
+  &.finalized {
+    background-color: $success;
+  }
+}

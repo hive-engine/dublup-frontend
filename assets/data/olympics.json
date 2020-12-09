@@ -1,0 +1,562 @@
+{
+  "Summer": {
+    "Archery": [
+      "Men's Individual Competition",
+      "Men's Team Competition",
+      "Mixed Team",
+      "Women's Individual Competition",
+      "Women's Team Competition"
+    ],
+    "Artistic Swimming": [
+      "Women's Duets",
+      "Women's Teams"
+    ],
+    "Badminton": [
+      "Men's Doubles",
+      "Men's Singles",
+      "Mixed Doubles",
+      "Women's Doubles",
+      "Women's Singles"
+    ],
+    "Baseball": [
+      "Men's Baseball"
+    ],
+    "Basketball": [
+      "Men's 3x3 Basketball",
+      "Men's Basketball",
+      "Women's 3x3 Basketball",
+      "Women's Basketball"
+    ],
+    "Boxing": [
+      "Men's Feather(52-57kg)",
+      "Men's Fly(48-52kg)",
+      "Men's Heavy(81-91kg)",
+      "Men's Light Heavy(75-81kg)",
+      "Men's Light(57-63kg)",
+      "Men's Middle(69-75kg)",
+      "Men's Super Heavy(+91kg)",
+      "Men's Welter(63-69kg)",
+      "Women's Feather (54-57kg)",
+      "Women's Fly (48-51kg)",
+      "Women's Light (57-60kg)",
+      "Women's Middle (69-75kg)",
+      "Women's Welter (64-69kg)"
+    ],
+    "Canoe": [
+      "Men's Canoe Sprint Double (C-2) 1,000m",
+      "Men's Canoe Sprint Single (C-1) 1,000m",
+      "Men's Kayak Sprint Double (K-2) 1,000m",
+      "Men's Kayak Sprint Four (K-4) 500m",
+      "Men's Kayak Sprint Single (K-1) 1,000m",
+      "Men's Kayak Sprint Single (K-1) 200m",
+      "Men's Slalom Canoe (C-1)",
+      "Men's Slalom Kayak (K-1)",
+      "Women's Canoe Sprint Double (C-2) 500m",
+      "Women's Canoe Sprint Single (C-1) 200m",
+      "Women's Kayak Sprint Double (K-2) 500m",
+      "Women's Kayak Sprint Four (K-4) 500m",
+      "Women's Kayak Sprint Single (K-1) 200m",
+      "Women's Kayak Sprint Single (K-1) 500m",
+      "Women's Slalom Canoe (C-1)",
+      "Women's Slalom Kayak (K-1)"
+    ],
+    "Cycling": [
+      "Men's BMX Freestyle",
+      "Men's BMX Racing",
+      "Men's Cross-Country Mountain Biking",
+      "Men's Road Race",
+      "Men's Road Race Individual Time Trial",
+      "Men's Track Cycling Keirin",
+      "Men's Track Cycling Madison",
+      "Men's Track Cycling Omnium",
+      "Men's Track Cycling Sprint",
+      "Men's Track Cycling Team Pursuit",
+      "Men's Track Cycling Team Sprint",
+      "Women's BMX Freestyle",
+      "Women's BMX Racing",
+      "Women's Cross-Country Mountain Biking",
+      "Women's Road Race",
+      "Women's Road Race Individual Time Trial",
+      "Women's Track Cycling Madison",
+      "Women's Track Cycling Sprint",
+      "Women's Track Cycling Team Sprint",
+      "Women'sTrack Cycling Keirin",
+      "Women'sTrack Cycling Omnium",
+      "Women'sTrack Cycling Team Pursuit"
+    ],
+    "Decathlon": [
+      "Men's Decathlon"
+    ],
+    "Diving": [
+      "Men's 10m Platform",
+      "Men's 3m Springboard",
+      "Men's Synchronized 10m Platform",
+      "Men's Synchronized 3m Springboard",
+      "Women's 10m Platform",
+      "Women's 3m Springboard",
+      "Women's Synchronized 10m Platform",
+      "Women's Synchronized 3m Springboard"
+    ],
+    "Equestrian": [
+      "Dressage Individual Competition",
+      "Dressage Team Competition",
+      "Eventing Individual Competition",
+      "Eventing Team Competition",
+      "Jumping Individual Competition",
+      "Jumping Team Competition"
+    ],
+    "Fencing": [
+      "Men's Individual Epée",
+      "Men's Individual Foil",
+      "Men's Individual Sabre",
+      "Men's Team Epée",
+      "Men's Team Foil",
+      "Men's Team Sabre",
+      "Women's Individual Epée",
+      "Women's Individual Foil",
+      "Women's Individual Sabre",
+      "Women's Team Epée",
+      "Women's Team Foil",
+      "Women's Team Sabre"
+    ],
+    "Field": [
+      "Men's Discus Throw",
+      "Men's Hammer Throw",
+      "Men's High Jump",
+      "Men's Javelin Throw",
+      "Men's Long Jump",
+      "Men's Pole Vault",
+      "Men's Shot Put",
+      "Men's Triple Jump",
+      "Women's Discus Throw",
+      "Women's Hammer Throw",
+      "Women's High Jump",
+      "Women's Javelin Throw",
+      "Women's Long Jump",
+      "Women's Pole Vault",
+      "Women's Shot Put",
+      "Women's Triple Jump"
+    ],
+    "Football (Soccer)": [
+      "Men's Team Soccer",
+      "Women's Team Soccer"
+    ],
+    "Golf": [
+      "Men's Individual Stroke Play",
+      "Women's Individual Stroke Play"
+    ],
+    "Gymastics Artistic": [
+      "Men's Floor Exercise",
+      "Men's Horizontal Bar",
+      "Men's Individual All-Around Competition",
+      "Men's Parallel Bars",
+      "Men's Pommel Horse",
+      "Men's Rings",
+      "Men's Team Competition",
+      "Men's Vault",
+      "Women's Beam",
+      "Women's Individual All-Around Competition",
+      "Women's Team Competition",
+      "Women's Uneven Bars",
+      "Women's Vault",
+      "Women's Floor Exercise"
+    ],
+    "Gymastics Rythmic": [
+      "Women's Group All-Around Competition",
+      "Women's Individual All-Around Competition"
+    ],
+    "Gymnastics Trampoline": [
+      "Men's Individual Competition",
+      "Women's Individual Competition"
+    ],
+    "Handball": [
+      "Men's Handball",
+      "Women's Handball"
+    ],
+    "Heptathlon": [
+      "Women's Heptathlon"
+    ],
+    "Hockey": [
+      "Men's Hockey",
+      "Women's Hockey"
+    ],
+    "Judo": [
+      "Men's +100kg",
+      "Men's -100kg",
+      "Men's -60kg",
+      "Men's -66kg",
+      "Men's -73kg",
+      "Men's -81kg",
+      "Men's -90kg",
+      "Mixed Team",
+      "Women's +78kg",
+      "Women's -48kg",
+      "Women's -52kg",
+      "Women's -57kg",
+      "Women's -63kg",
+      "Women's -70kg",
+      "Women's -78kg"
+    ],
+    "Karate": [
+      "Men's Kata",
+      "Mens Kumite (sparring) +75kg",
+      "Mens Kumite (sparring) -67kg",
+      "Mens Kumite (sparring) -75kg",
+      "Women's Kata",
+      "Women's Kumite (sparring) +61kg",
+      "Women's Kumite (sparring) -55kg",
+      "Women's Kumite (sparring) -61kg"
+    ],
+    "Marathon swimming": [
+      "Men's 10km Marathon Swimming",
+      "Women's 10km Marathon Swimming"
+    ],
+    "Modern Pentathlon": [
+      "Men's Individual Competition",
+      "Women's Individual Competition"
+    ],
+    "Rowing": [
+      "Men's Double Sculls (2x)",
+      "Men's Eight (8+)",
+      "Men's Four (4-)",
+      "Men's Lightweight Double Sculls (2x)",
+      "Men's Pair (2-)",
+      "Men's Quadruple Sculls (4x)",
+      "Men's Single Sculls (1x)",
+      "Women's Double Sculls (2x)",
+      "Women's Eight (8+)",
+      "Women's Four (4-)",
+      "Women's Lightweight Double Sculls (2x)",
+      "Women's Pair (2-)",
+      "Women's Quadruple Sculls (4x)",
+      "Women's Single Sculls (1x)"
+    ],
+    "Rugby": [
+      "Men's Rugby",
+      "Women's Rugby"
+    ],
+    "Sailing": [
+      "Men's 470 - Two Person Dinghy",
+      "Men's 49er - Skiff",
+      "Men's Finn - One Person Dinghy (Heavyweight)",
+      "Men's Laser - One Person Dinghy",
+      "Men's RS:X - Windsurfer",
+      "Nacra 17 Foiling - Mixed Multihull",
+      "Women's 470 - Two Person Dinghy",
+      "Women's 49er FX - Skiff",
+      "Women's Laser Radial - One Person Dinghy",
+      "Women's RS:X - Windsurfer"
+    ],
+    "Shooting": [
+      "10m Air Pistol Mixed Team",
+      "10m Air Rifle Mixed Team",
+      "Men's 10m Air Pistol",
+      "Men's 10m Air Rifle",
+      "Men's 25m Rapid Fire Pistol",
+      "Men's 50m Rifle 3 Positions",
+      "Men's Skeet",
+      "Men's Trap",
+      "Trap Mixed Team",
+      "Women's 10m Air Pistol",
+      "Women's 10m Air Rifle",
+      "Women's 25m Pistol",
+      "Women's 50m Rifle 3 Positions",
+      "Women's Skeet",
+      "Women's Trap"
+    ],
+    "Skateboarding": [
+      "Men's Park",
+      "Men's Street",
+      "Women's Park",
+      "Women's Street"
+    ],
+    "Softball": [
+      "Women's Softball"
+    ],
+    "Sport Climbing": [
+      "Men's Bouldering",
+      "Men's Lead",
+      "Men's Speed Combined",
+      "Women's Bouldering",
+      "Women's Lead",
+      "Women's Speed Combined"
+    ],
+    "Surfing": [
+      "Men's Shortboard",
+      "Women's Shortboard"
+    ],
+    "Swimming": [
+      "Men's 100m Backstroke",
+      "Men's 100m Breaststroke",
+      "Men's 100m Butterfly",
+      "Men's 100m Freestyle",
+      "Men's 1500m Freestyle",
+      "Men's 200m Backstroke",
+      "Men's 200m Breaststroke",
+      "Men's 200m Butterfly",
+      "Men's 200m Freestyle",
+      "Men's 200m Individual Medley",
+      "Men's 4 x 100m Freestyle Relay",
+      "Men's 4 x 100m Medley Relay",
+      "Men's 4 x 200m Freestyle Relay",
+      "Men's 400m Freestyle",
+      "Men's 400m Individual Medley",
+      "Men's 50m Freestyle",
+      "Men's 800m Freestyle",
+      "Mixed 4 x 100m Medley Relay",
+      "Women's 100m Backstroke",
+      "Women's 100m Breaststroke",
+      "Women's 100m Butterfly",
+      "Women's 100m Freestyle",
+      "Women's 1500m Freestyle",
+      "Women's 200m Backstroke",
+      "Women's 200m Breaststroke",
+      "Women's 200m Butterfly",
+      "Women's 200m Freestyle",
+      "Women's 200m Individual Medley",
+      "Women's 4 x 100m Freestyle Relay",
+      "Women's 4 x 100m Medley Relay",
+      "Women's 4 x 200m Freestyle Relay",
+      "Women's 400m Freestyle",
+      "Women's 400m Individual Medley",
+      "Women's 50m Freestyle",
+      "Women's 800m Freestyle"
+    ],
+    "Table Tennis": [
+      "Men's Doubles",
+      "Men's Singles",
+      "Mixed Doubles",
+      "Women's Doubles",
+      "Women's Singles"
+    ],
+    "Taekwondo": [
+      "Men's  +80kg",
+      "Men's  -80kg",
+      "Men's -58kg",
+      "Men's -68kg",
+      "Women's +67kg",
+      "Women's -49kg",
+      "Women's -57kg",
+      "Women's -67kg"
+    ],
+    "Tennis": [
+      "Men's Doubles",
+      "Men's Singles",
+      "Mixed Doubles",
+      "Women's Doubles",
+      "Women's Singles"
+    ],
+    "Track": [
+      "Men's 1,500m",
+      "Men's 10,000m",
+      "Men's 100m",
+      "Men's 110m Hurdles",
+      "Men's 200m",
+      "Men's 3,000m Steeplechase",
+      "Men's 4 x 100m Relay",
+      "Men's 4 x 400m Relay",
+      "Men's 400m",
+      "Men's 400m Hurdles",
+      "Men's 5,000m",
+      "Men's 800m",
+      "Mixed 4 x 400m Relay",
+      "Women's 1,500m",
+      "Women's 10,000m",
+      "Women's 100m",
+      "Women's 100m Hurdles",
+      "Women's 200m",
+      "Women's 3,000m Steeplechase",
+      "Women's 4 x 100m Relay",
+      "Women's 4 x 400m Relay",
+      "Women's 400m",
+      "Women's 400m Hurdles",
+      "Women's 5,000m",
+      "Women's 800m"
+    ],
+    "Triathlon": [
+      "Men's Individual Competition",
+      "Mixed Relay",
+      "Women's Individual Competition"
+    ],
+    "Volleyball": [
+      "Men's Beach Volleyball",
+      "Men's Volleyball",
+      "Women's Beach Volleyball",
+      "Women's Volleyball"
+    ],
+    "Water Polo": [
+      "Men's Water Polo",
+      "Women's Water Polo"
+    ],
+    "Weightlifting": [
+      "Men's  +109kg",
+      "Men's  109kg",
+      "Men's  73kg",
+      "Men's  96kg",
+      "Men's 61kg",
+      "Men's 67kg",
+      "Men's 81kg",
+      "Women's +87kg",
+      "Women's 49kg",
+      "Women's 55kg",
+      "Women's 59kg",
+      "Women's 64kg",
+      "Women's 76kg",
+      "Women's 87kg"
+    ],
+    "Wrestling": [
+      "Men's Freestyle 125kg",
+      "Men's Freestyle 57kg",
+      "Men's Freestyle 65kg",
+      "Men's Freestyle 74kg",
+      "Men's Freestyle 86kg",
+      "Men's Freestyle 97kg",
+      "Men's Greco-Roman 130kg",
+      "Men's Greco-Roman 60kg",
+      "Men's Greco-Roman 67kg",
+      "Men's Greco-Roman 77kg",
+      "Men's Greco-Roman 87kg",
+      "Men's Greco-Roman 97kg",
+      "Women's Freestyle 50kg",
+      "Women's Freestyle 53kg",
+      "Women's Freestyle 57kg",
+      "Women's Freestyle 62kg",
+      "Women's Freestyle 68kg",
+      "Women's Freestyle 76kg"
+    ]
+  },
+  "Winter": {
+    "Alpine Skiing": [
+      "Men's Alpine Combined",
+      "Men's Downhill",
+      "Men's Giant Slalom",
+      "Men's Slalom",
+      "Men's Super-G",
+      "Mixed Alpine Team Event",
+      "Women's Alpine Combined",
+      "Women's Downhill",
+      "Women's Giant Slalom",
+      "Women's Slalom",
+      "Women's Super-G"
+    ],
+    "Biathlon": [
+      "2x6 KM Women + 2x7.5 KM Men Relay (mixed)",
+      "Men's 10 KM Sprint",
+      "Men's 12.5 KM Pursuit",
+      "Men's 15 KM Mass Start",
+      "Men's 20 KM Individual",
+      "Men's 4x7.5 KM Relay",
+      "Women's 10 KM Sprint",
+      "Women's 12.5 KM Mass Start",
+      "Women's 15 KM Individual",
+      "Women's 4x6 KM Relay",
+      "Women's 7.5 KM Sprint"
+    ],
+    "Bobsleigh": [
+      "Men's 2-Man",
+      "Men's 4-Man",
+      "Women's Bobsleigh"
+    ],
+    "Cross Country Skiing": [
+      "Men's  15KM+15KM Skiathlon",
+      "Men's 15KM Free",
+      "Men's 4X10KM Relay",
+      "Men's 50KM Mass Start Classic",
+      "Men's Sprint Classic",
+      "Men's Team Sprint Free",
+      "Women's 10KM Free",
+      "Women's 30KM Mass START Classic",
+      "Women's 4X5KM RELAY",
+      "Women's 7.5KM+7.5KM Skiathlon",
+      "Women's Sprint Classic",
+      "Women's Team Sprint Free"
+    ],
+    "Curling": [
+      "Men's Curling",
+      "Mixed Curling",
+      "Women's Curling"
+    ],
+    "Figure Skating": [
+      "Men's Single Skating",
+      "Mixed Ice Dance",
+      "Mixed Pair Skating",
+      "Mixed Team Event",
+      "Women's Single Skating"
+    ],
+    "Freestyle Skiing": [
+      "Men's Aerials",
+      "Men's Moguls",
+      "Men's Ski Cross",
+      "Men's Ski Halfpipe",
+      "Men's Ski Slopestyle",
+      "Women's Aerials",
+      "Women's Moguls",
+      "Women's Ski Cross",
+      "Women's Ski Halfpipe",
+      "Women's Ski Slopestyle"
+    ],
+    "Ice Hockey": [
+      "Men's Ice Hockey",
+      "Women's Ice Hockey"
+    ],
+    "Luge": [
+      "Men's Singles",
+      "Mixed Doubles",
+      "Mixed Team Relay",
+      "Women's Singles"
+    ],
+    "Nordic Combined": [
+      "Men's Individual Gundersen Large Hill",
+      "Men's Individual Gundersen Normal Hill",
+      "Team Gundersen Large Hill"
+    ],
+    "Short Track": [
+      "Men's 1000M",
+      "Men's 1500M",
+      "Men's 5000M",
+      "Men's 500M",
+      "Women's 1000M",
+      "Women's 1500M",
+      "Women's 3000M",
+      "Women's 500M"
+    ],
+    "Skeleton": [
+      "Men's Skeleton",
+      "Women's Skeleton"
+    ],
+    "Ski Jumping": [
+      "Men's Large Hill Individual",
+      "Men's Normal Hill Individual",
+      "Men's Team",
+      "Women's Normal Hill Individual"
+    ],
+    "Snowboarding": [
+      "Men's Big Air",
+      "Men's Halfpipe",
+      "Men's Parallel Giant Slolam",
+      "Men's Slopestyle",
+      "Men's Snowboarding Cross",
+      "Women's Big Air",
+      "Women's Halfpipe",
+      "Women's Parallel Giant Slolam",
+      "Women's Slopestyle",
+      "Women's Snowboarding Cross"
+    ],
+    "Speed Skating": [
+      "Men's 10000M",
+      "Men's 1000M",
+      "Men's 1500M",
+      "Men's 5000M",
+      "Men's 500M",
+      "Men's Mass Start",
+      "Men's Team Pursuit",
+      "Women's 1000M",
+      "Women's 1500M",
+      "Women's 3000M",
+      "Women's 5000M",
+      "Women's 500M",
+      "Women's Mass Start",
+      "Women's Team Pursuit"
+    ]
+  }
+}

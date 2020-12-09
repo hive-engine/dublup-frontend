@@ -1,0 +1,99 @@
+{
+  "Academy Awards": [
+    "Best Actor",
+    "Best Actress",
+    "Best Adapted Screenplay",
+    "Best Director",
+    "Best Original Screenplay",
+    "Best Picture",
+    "Best Supporting Actor",
+    "Best Supporting Actress"
+  ],
+  "American Music Awards": [
+    "Artist of the Year",
+    "Favorite Album - Country",
+    "Favorite Album - Pop/Rock",
+    "Favorite Album - Rap/Hip-Hop",
+    "Favorite Album - Soul/R&B",
+    "Favorite Artist - Rap/Hip-Hop",
+    "Favorite Female Artist - Country",
+    "Favorite Female Artist - Pop/Rock",
+    "Favorite Female Artist - Soul/R&B",
+    "Favorite Male Artist - Country",
+    "Favorite Male Artist - Pop/Rock",
+    "Favorite Male Artist - Soul/R&B",
+    "Favorite Music Video",
+    "Favorite Song - Country",
+    "Favorite Song - Pop/Rock",
+    "Favorite Song - Rap/Hip-Hop",
+    "Favorite Song - Soul/R&B",
+    "Favorite Soundtrack",
+    "New Artist of the Year",
+    "Tour of the Year"
+  ],
+  "BAFTA Awards": [
+    "Best Actor",
+    "Best Actress",
+    "Best Animated Film",
+    "Best Director",
+    "Best Film",
+    "Best Supporting Actor",
+    "Best Supporting Actress"
+  ],
+  "Brit Awards": [
+    "British album of the year",
+    "British female solo artist",
+    "British group",
+    "British male solo artist",
+    "British single",
+    "International female solo artist",
+    "International group",
+    "International male solo artist"
+  ],
+  "Emmy Awards": [
+    "Outstanding Comedy Series",
+    "Outstanding Drama Series",
+    "Outstanding Lead Actor In A Comedy Series",
+    "Outstanding Lead Actor In A Drama Series",
+    "Outstanding Lead Actress In A Comedy Series",
+    "Outstanding Lead Actress In A Drama Series",
+    "Outstanding Limited Series",
+    "Outstanding Supporting Actor In A Comedy Series",
+    "Outstanding Supporting Actor In A Drama Series",
+    "Outstanding Supporting Actress In A Comedy Series",
+    "Outstanding Supporting Actress In A Drama Series",
+    "Outstanding Television Movie"
+  ],
+  "Golden Globe Awards": [
+    "Best Director - Motion Picture",
+    "Best Motion Picture - Animated",
+    "Best Motion Picture - Drama",
+    "Best Motion Picture - Foreign Language",
+    "Best Motion Picture - Musical or Comedy",
+    "Best Original Song - Motion Picture",
+    "Best Performance by an Actor in a Motion Picture - Drama",
+    "Best Performance by an Actor in a Motion Picture - Musical or Comedy",
+    "Best Performance by an Actress in a Motion Picture - Drama",
+    "Best Performance by an Actress in a Motion Picture - Musical or Comedy",
+    "Best Screenplay - Motion PictureBest Television Limited Series or Motion Picture Made for Television",
+    "Best Television Series - DramaBest Television Series - Musical or Comedy"
+  ],
+  "Grammy Awards": [
+    "Album Of The Year",
+    "Best New Artist",
+    "Record Of The Year",
+    "Song Of The Year"
+  ],
+  "MTV Video Music Awards": [
+    "Artist of the Year",
+    "Best danceBest hip-hop",
+    "Best new artist",
+    "Best popBest R&B",
+    "Best rockSong of the year"
+  ],
+  "Razzies Awards": [
+    "Worst Actor",
+    "Worst Actress",
+    "Worst Picture"
+  ]
+}
