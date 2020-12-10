@@ -93,9 +93,10 @@ export const actions = {
 
   async processLogin ({ commit, dispatch }, { username, ts, sig, smartlock, redirect }) {
     try {
-      const { token, oracle, admin } = await this.$API.call('users/login', { username, ts, sig })
+      const { token, oracle, banned, admin } = await this.$API.call('users/login', { username, ts, sig })
 
       commit('SET_USER', { username, admin, oracle, authenticated: true, smartlock, token })
+      commit('SET_PROFILE', { token, oracle, banned, admin })
 
       await dispatch('message/beeChatLogin', { username, ts, sig }, { root: true })
       await dispatch('fetchUserTokenBalance')
@@ -121,7 +122,8 @@ export const actions = {
       oracle: false,
       authenticated: false,
       smartlock: false,
-      token: null
+      token: null,
+      profile: null
     })
 
     commit('SET_TOKEN_BALANCE', { balance: 0, stake: 0 })

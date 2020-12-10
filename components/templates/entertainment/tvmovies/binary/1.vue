@@ -75,7 +75,7 @@
             <b-col cols="12" md="6" lg="4" class="mb-3">
               Converted to UTC-0:
               <p class="mb-0 text-info">
-                <DateToUTC :datetime="expiryDateTime" />
+                <DateToUTC :datetime="expiryDateTime.toISOString()" />
               </p>
             </b-col>
 
@@ -98,7 +98,7 @@
 
 <script>
 import { addDays } from 'date-fns'
-import { format } from 'date-fns-tz'
+import { format, zonedTimeToUtc } from 'date-fns-tz'
 import { required, numeric } from 'vuelidate/lib/validators'
 import DateToUTC from '@/components/DateToUTC.vue'
 import ResolutionRules from '@/components/ResolutionRules.vue'
@@ -192,11 +192,11 @@ export default {
     expiryDate: {
       required,
       mustBeEqualOrHigher (value) {
-        if (value === '' || !this.date) {
+        if (value === '' || !this.date || !this.expiryDateTime) {
           return true
         }
 
-        return new Date(value).getTime() > new Date(this.date).getTime()
+        return this.expiryDateTime.getTime() >= zonedTimeToUtc(this.date, 'Etc/GMT').getTime()
       }
     },
 

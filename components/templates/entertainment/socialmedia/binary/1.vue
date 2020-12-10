@@ -90,7 +90,8 @@
 </template>
 
 <script>
-import { addDays, addMonths, format } from 'date-fns'
+import { addDays, addMonths } from 'date-fns'
+import { format, utcToZonedTime } from 'date-fns-tz'
 import { required, numeric } from 'vuelidate/lib/validators'
 import ResolutionRules from '@/components/ResolutionRules.vue'
 
@@ -121,7 +122,7 @@ export default {
   computed: {
     expiryDate () {
       if (this.date) {
-        return format(addDays(this.convertDateTime(this.date), 2), 'yyyy-MM-dd')
+        return format(addDays(utcToZonedTime(this.date, 'Etc/GMT'), 2), 'yyyy-MM-dd')
       }
 
       return null

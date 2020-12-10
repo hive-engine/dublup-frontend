@@ -101,7 +101,8 @@
 </template>
 
 <script>
-import { addDays, addMonths, format } from 'date-fns'
+import { addDays, addMonths } from 'date-fns'
+import { format, zonedTimeToUtc } from 'date-fns-tz'
 import { required } from 'vuelidate/lib/validators'
 import DateToUTC from '@/components/DateToUTC.vue'
 import ResolutionRules from '@/components/ResolutionRules.vue'
@@ -209,11 +210,11 @@ export default {
     expiryDate: {
       required,
       mustBeEqualOrHigher (value) {
-        if (value === '') {
+        if (value === '' || !this.date || !this.expiryDateTime) {
           return true
         }
 
-        return new Date(value) > new Date(this.date)
+        return this.expiryDateTime.getTime() >= zonedTimeToUtc(this.date, 'Etc/GMT').getTime()
       }
     },
 

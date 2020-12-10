@@ -60,7 +60,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { format } from 'date-fns-tz'
+import { format, utcToZonedTime } from 'date-fns-tz'
 import DateToUTC from '@/components/DateToUTC.vue'
 import ResolutionRules from '@/components/ResolutionRules.vue'
 import jsonQuestions from '@/assets/data/questions.json'
@@ -94,7 +94,7 @@ export default {
 
       return question.replaceable.replace(/\[(\w+)\]/g, (match, p) => {
         if (['openDate', 'startDate', 'closeDate', 'date'].includes(p)) {
-          return format(new Date(this.questionData[p]), 'MMMM dd, yyyy')
+          return format(utcToZonedTime(this.questionData[p], 'Etc/GMT'), 'MMMM dd, yyyy')
         }
 
         return this.questionData[p]

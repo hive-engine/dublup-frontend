@@ -74,7 +74,8 @@
 </template>
 
 <script>
-import { addMonths, lastDayOfMonth, format } from 'date-fns'
+import { addMonths, lastDayOfMonth } from 'date-fns'
+import { format, utcToZonedTime } from 'date-fns-tz'
 import { required, numeric } from 'vuelidate/lib/validators'
 import ResolutionRules from '@/components/ResolutionRules.vue'
 
@@ -115,7 +116,7 @@ export default {
 
     expiryDate () {
       if (this.month && this.year) {
-        return format(addMonths(lastDayOfMonth(new Date(`${this.month} 1, ${this.year}`)), 1), 'yyyy-MM-dd')
+        return format(addMonths(utcToZonedTime(lastDayOfMonth(new Date(`${this.month} 1, ${this.year}`)), 'Etc/GMT'), 1), 'yyyy-MM-dd')
       }
 
       return null
