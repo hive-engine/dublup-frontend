@@ -42,7 +42,11 @@ export default {
   watch: {
     isAuthenticated (authenticated) {
       if (authenticated) {
+        this.connectWebsocket()
+
         this.websocketSend({ type: 'authenticate', payload: { token: this.token } })
+      } else {
+        this.disconnectWebsocket('User logged out')
       }
     },
 
@@ -50,12 +54,6 @@ export default {
       if (connected && this.socket.readyState === 1 && this.isAuthenticated) {
         this.websocketSend({ type: 'authenticate', payload: { token: this.token } })
       }
-    }
-  },
-
-  created () {
-    if (process.client) {
-      this.connectWebsocket()
     }
   },
 
@@ -118,9 +116,9 @@ export default {
       }
     },
 
-    disconnectWebsocket () {
+    disconnectWebsocket (message = '') {
       if (this.socket) {
-        this.socket.close()
+        this.socket.close(1000, message)
         this.socket = null
       }
     },
