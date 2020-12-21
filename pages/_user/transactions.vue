@@ -61,7 +61,17 @@
                 @{{ transaction.account }}
               </nuxt-link>
             </template>
-            for <code>{{ transaction.data.payment }} {{ transaction.data.symbol }}</code>. Market ID: <nuxt-link :to="{name:'market-market', params: {market: transaction.data.market}}">
+            for <code>{{ transaction.data.payment }} {{ transaction.data.symbol }}</code>. Market ID: <nuxt-link :to="{name:'market-market', params: {market: transaction.market_id}}">
+              {{ transaction.market_id }}
+            </nuxt-link>
+          </template>
+
+          <template v-else-if="transaction.type === 'register-oracle'">
+            registered as an oracle.
+          </template>
+
+          <template v-else-if="transaction.type === 'hide-market'">
+            hidden a market. Market ID: <nuxt-link :to="{name:'market-market', params: {market: transaction.market_id}}">
               {{ transaction.market_id }}
             </nuxt-link>
           </template>
