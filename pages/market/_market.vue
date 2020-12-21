@@ -181,7 +181,6 @@
       </b-table>
 
       <b-pagination
-
         v-model="currentPage"
         :total-rows="totalRows"
         :per-page="perPage"
@@ -313,6 +312,8 @@ export default {
       await this.fetchUserTokenBalance()
     }
 
+    this.totalRows = this.for_sale.length
+
     this.dataLoaded = true
   },
 
@@ -401,8 +402,6 @@ export default {
 
   mounted () {
     const self = this
-
-    this.totalRows = this.for_sale.length
 
     this.$eventBus.$on('report-outcome-successful', async () => {
       self.$bvModal.hide('reportingModal')

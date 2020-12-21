@@ -1,7 +1,7 @@
 <template>
   <b-modal id="sellSharesModal" title="Sell Shares">
     <b-form-group label="Outcome">
-      <select id="sell-outcome" v-model="outcome" name="sell-outcome" class="form-control" :state="$v.outcome.$dirty ? !$v.outcome.$error : null">
+      <select id="sell-outcome" v-model="outcome" name="sell-outcome" class="custom-select" :class="$v.outcome.$dirty ? $v.outcome.$error? 'is-invalid' :'is-valid' : null">
         <option v-for="[k, v] of Object.entries(getUserGroupedShares)" :key="k" :value="k">
           {{ k }} ({{ v.length }} SHARES)
         </option>
@@ -95,7 +95,7 @@ export default {
       if (modalId === 'sellSharesModal') {
         self.$v.$reset()
 
-        self.outcome = ''
+        self.outcome = null
         self.quantity = ''
         self.price = ''
       }

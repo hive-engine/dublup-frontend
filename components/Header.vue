@@ -58,10 +58,13 @@
                   <v-icon name="user" />&nbsp; {{ username }}
                 </template>
                 <b-dropdown-item v-if="isAdmin" :to="{name:'admin'}">
-                  Admin
+                  Admin Dashboard
                 </b-dropdown-item>
                 <b-dropdown-item :to="{name:'user-markets', params:{user: username}}">
                   Your Markets
+                </b-dropdown-item>
+                <b-dropdown-item :to="{name:'user-transactions', params:{user: username}}">
+                  Transaction History
                 </b-dropdown-item>
                 <b-dropdown-item @click.prevent="logout">
                   Logout
