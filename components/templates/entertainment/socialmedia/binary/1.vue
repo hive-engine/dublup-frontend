@@ -19,11 +19,6 @@
           placeholder="Number of Followers"
           step="any"
           :state="$v.followers.$dirty ? !$v.followers.$error : null"
-        /> <b-form-select
-          v-model="unit"
-          class="inline-input"
-          :options="unitOptions"
-          :state="$v.unit.$dirty ? !$v.unit.$error : null"
         /> or more followers on <b-form-datepicker
           v-model="date"
           hide-header
@@ -111,18 +106,16 @@ export default {
       socialmedia: null,
       username: '',
       followers: '',
-      unit: null,
       date: null,
 
-      socialmediaOptions: [{ value: null, text: 'Social Media' }, 'Twitter', 'Instagram'],
-      unitOptions: [{ value: null, text: 'Unit' }, 'Thousand', 'Million', 'Billion']
+      socialmediaOptions: [{ value: null, text: 'Social Media' }, 'Twitter', 'Instagram']
     }
   },
 
   computed: {
     expiryDate () {
       if (this.date) {
-        return format(addDays(utcToZonedTime(this.date, 'Etc/GMT'), 2), 'yyyy-MM-dd')
+        return format(addDays(utcToZonedTime(this.convertDateTime(this.date), 'Etc/GMT'), 2), 'yyyy-MM-dd')
       }
 
       return null
@@ -163,7 +156,6 @@ export default {
           socialmedia: this.socialmedia,
           username: this.username,
           followers: this.followers,
-          unit: this.unit,
           date: this.convertDateTime(this.date).toISOString(),
           expiryDate: this.expiryDateTime.toISOString()
         }
@@ -189,15 +181,11 @@ export default {
       numeric
     },
 
-    unit: {
-      required
-    },
-
     date: {
       required
     },
 
-    form: ['socialmedia', 'username', 'followers', 'unit', 'date']
+    form: ['socialmedia', 'username', 'followers', 'date']
   }
 }
 </script>
