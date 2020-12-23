@@ -296,6 +296,10 @@ export default {
       const id = `${this.category}-${this.subCategory.replace(/\s&*|\(|\)/g, '')}-${this.marketType}`.toLowerCase()
 
       this.questionsData = jsonQuestions[id] || []
+
+      if (this.questionsData && this.questionsData.length > 0) {
+        this.question = this.questionsData[0].id
+      }
     },
 
     dataLoaded: {
