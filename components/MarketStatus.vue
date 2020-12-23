@@ -14,7 +14,7 @@ export default {
 
   computed: {
     getMarketStatus () {
-      return (this.status === 0) ? 'Hidden' : (this.status === 1) ? 'Open' : (this.status === 2) ? 'Reporting' : (this.status === 3) ? 'Reported' : (this.status === 4) ? 'Disputing' : 'Finalized'
+      return (this.status === 0) ? 'Hidden' : (this.status === 1) ? 'Market Open' : (this.status === 2) ? 'Reporting' : (this.status === 3) ? 'Reported' : (this.status === 4) ? 'Disputing' : 'Finalized'
     }
   }
 }
