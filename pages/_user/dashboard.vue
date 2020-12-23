@@ -25,7 +25,7 @@
         If this reputation goes below 0, your market outcome submission won't be counted.
       </p>
       <p class="text-muted">
-        Please be extreemly careful while settling markets. Wrong submission reduces your reputation by {{ settings.incorrect_reporting_penalty }}, correct outcome increase it by {{ settings.correct_reporting_reward }}.
+        Please be extremely careful while settling markets. Wrong submission reduces your reputation by {{ settings.incorrect_reporting_penalty }}, correct outcome increase it by {{ settings.correct_reporting_reward }}.
       </p>
     </b-card>
   </div>

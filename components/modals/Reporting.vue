@@ -21,7 +21,7 @@
 
     <template #modal-footer>
       <b-button variant="primary" @click.prevent="reportMarket">
-        Encrypt & Broardcast
+        Encrypt & Broadcast
       </b-button>
     </template>
   </b-modal>

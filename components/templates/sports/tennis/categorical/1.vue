@@ -12,12 +12,7 @@
           class="inline-input"
           :options="['Singles', 'Doubles']"
           :state="$v.gameFormat.$dirty ? !$v.gameFormat.$error : null"
-        /> Tennis: Will <b-form-input
-          v-model="players"
-          class="inline-input"
-          :placeholder=" (gameFormat === 'Singles') ? 'Single Player\'s Name':'Two Players\' Name'"
-          :state="$v.players.$dirty ? !$v.players.$error : null"
-        /> win the <b-form-select
+        /> Tennis: Which player(s) will win the <b-form-select
           v-model="year"
           class="inline-input"
           :options="computedYears"
@@ -29,6 +24,36 @@
           :state="$v.event.$dirty ? !$v.event.$error : null"
         />?
       </div>
+    </b-card>
+
+    <b-card class="mt-5" title="Outcomes">
+      <ol class="outcomes-list">
+        <li v-for="(outcome, k) in outcomes" :key="k">
+          <div class="d-flex align-items-center">
+            <b-form-input v-model="outcome.value" :state="$v.outcomes.$each.$iter[k].$dirty ? !$v.outcomes.$each.$iter[k].$error : null" />
+
+            <div class="ml-3">
+              <b-button v-show="k > 1 && outcomes.length > 2" size="sm" variant="danger" title="Remove field" @click.prevent="removeOutcomeField(k)">
+                <v-icon name="x" />
+              </b-button>
+              <b-button v-show="k === outcomes.length-1" size="sm" variant="primary" title="Add new field" @click.prevent="addOutcomeField(k)">
+                <v-icon name="plus" />
+              </b-button>
+            </div>
+          </div>
+        </li>
+      </ol>
+
+      <h6 class="mt-3">
+        Required Outcomes
+      </h6>
+      <b-form-text>Required unchangeable additional outcomes</b-form-text>
+
+      <ol class="outcomes-list">
+        <li v-for="(outcome, k) in requiredOutcomes" :key="k">
+          {{ outcome }}
+        </li>
+      </ol>
     </b-card>
 
     <b-card class="mt-5" title="Resolution information">
@@ -54,7 +79,6 @@
               day: 'numeric',
             }"
             :min="expiryDateMin"
-            :max="expiryDateMax"
             :state="$v.expiryDate.$dirty ? !$v.expiryDate.$error : null"
           />
         </b-col>
@@ -102,15 +126,23 @@
 </template>
 
 <script>
-import { addDays, addMonths, format } from 'date-fns'
+import { addDays, format } from 'date-fns'
 import { required, minLength } from 'vuelidate/lib/validators'
 import DateToUTC from '@/components/DateToUTC.vue'
 import ResolutionRules from '@/components/ResolutionRules.vue'
-import tenisEvents from '@/assets/data/tenis-events.json'
+import tennisEvents from '@/assets/data/tennis-events.json'
 import timezones from '@/assets/data/timezones.json'
 
+function isUniqueOutcome (value) {
+  if (value === '') { return true }
+
+  const outcomes = this.outcomes.map(o => o.value)
+
+  return new Set(outcomes).size === outcomes.length
+}
+
 export default {
-  name: 'SportsTenisBinaryOne',
+  name: 'SportsTennisCategoricalOne',
 
   components: {
     DateToUTC,
@@ -125,11 +157,12 @@ export default {
     return {
       teamType: null,
       gameFormat: 'Singles',
-      players: '',
       year: null,
       event: null,
       expiryDate: null,
       expiryTime: null,
+      outcomes: [{ value: '' }, { value: '' }],
+      requiredOutcomes: ['Other', 'No Contest'],
       timezone: 'Etc/GMT'
     }
   },
@@ -164,7 +197,7 @@ export default {
       const events = [{ value: null, text: 'Event' }]
 
       if (this.teamType) {
-        return [...events, ...tenisEvents[this.teamType]]
+        return [...events, ...tennisEvents[this.teamType]]
       }
 
       return events
@@ -172,10 +205,6 @@ export default {
 
     expiryDateMin () {
       return format(addDays(new Date(), 1), 'yyyy-MM-dd')
-    },
-
-    expiryDateMax () {
-      return format(addMonths(new Date(), 3), 'yyyy-MM-dd')
     },
 
     expiryDateTime () {
@@ -207,16 +236,24 @@ export default {
         const data = {
           teamType: this.teamType,
           gameFormat: this.gameFormat,
-          players: this.players,
           year: this.year,
           event: this.event,
-          expiryDate: this.expiryDateTime.toISOString()
+          expiryDate: this.expiryDateTime.toISOString(),
+          outcomes: [...this.outcomes.filter(o => o.value !== '').map(o => o.value), ...this.requiredOutcomes]
         }
 
         this.$emit('validated', data, isValid)
       }
 
       return isValid
+    },
+
+    addOutcomeField () {
+      this.outcomes.push({ value: '' })
+    },
+
+    removeOutcomeField (index) {
+      this.outcomes.splice(index, 1)
     }
   },
 
@@ -257,7 +294,20 @@ export default {
       required
     },
 
-    form: ['teamType', 'gameFormat', 'players', 'year', 'event', 'expiryDate', 'expiryTime']
+    outcomes: {
+      required,
+      minLength: minLength(2),
+
+      $each: {
+        value: {
+          required,
+          minLength: minLength(2),
+          isUniqueOutcome
+        }
+      }
+    },
+
+    form: ['teamType', 'gameFormat', 'year', 'event', 'expiryDate', 'expiryTime', 'outcomes']
   }
 }
 </script>

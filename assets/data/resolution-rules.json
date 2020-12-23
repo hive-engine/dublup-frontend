@@ -245,11 +245,11 @@
     "If the event does not take place this market should resolve as 'Invalid'.",
     "Medal count is determined at event expiration, if event expiration is before the completion of the games this market should resolve as 'Invalid'."
   ],
-  "sports-tenis-binary-1":[
+  "sports-tennis-binary-1":[
     "If a player/pairing fails to start a tournament or a match or withdraws early or is disqualified, the market should resolve as 'No'.",
     "If the match is postponed and concludes after markets event expiration the market should resolve as 'No'"
   ],
-  "sports-tenis-categorical-1": [
+  "sports-tennis-categorical-1": [
     "If a player/pairing is disqualified or withdraws before the match is complete, the player moving forward to the next round should be declared the winner.",
     "If the winner is not listed as a market outcome, the market should resolve as 'Other (Field)'",
     "If a Tournament or Event is cancelled or postponed and will not be completed before the market's Event Expiration time, the market should resolve as 'No Contest'"
