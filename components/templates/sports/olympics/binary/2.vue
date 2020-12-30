@@ -36,6 +36,61 @@
       </div>
     </b-card>
 
+    <b-card class="mt-5" title="Market close time">
+      <p class="text-muted small">
+        After the market close time no new shares can be issued but existing shares can be traded on the secondary market.
+      </p>
+
+      <b-form-row>
+        <b-col sm="4" md="3" class="mb-3">
+          <b-form-datepicker
+            v-model="closeDate"
+            hide-header
+            :date-format-options="{
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            }"
+            :min="closeDateMin"
+            :state="$v.closeDate.$dirty ? !$v.closeDate.$error : null"
+          />
+        </b-col>
+        <b-col sm="4" md="3" class="mb-3">
+          <b-form-timepicker
+            v-model="closeTime"
+            hide-header
+            menu-class="w-100"
+            :no-close-button="true"
+            :state="$v.closeTime.$dirty ? !$v.closeTime.$error : null"
+          />
+        </b-col>
+
+        <b-col sm="4" md="3" class="mb-3">
+          <b-form-select
+            v-model="timezone"
+            :options="timezones"
+          />
+        </b-col>
+
+        <b-col v-if="closeDateTime" cols="12" class="mb-3">
+          <b-form-row>
+            <b-col cols="12" md="6" lg="4" class="mb-3">
+              Converted to UTC-0:
+              <p class="mb-0 text-info">
+                <DateToUTC :datetime="closeDateTime.toISOString()" />
+              </p>
+            </b-col>
+
+            <b-col cols="12" md="6" lg="8" class="mb-3 text-muted">
+              We will be using the UTC-0 timezone to standardize times. Ensure the
+              UTC-0 time is accurate and does not conflict with the resolution start
+              time.
+            </b-col>
+          </b-form-row>
+        </b-col>
+      </b-form-row>
+    </b-card>
+
     <b-card class="mt-5" title="Resolution information">
       <h5 class="mt-4 mb-3">
         Event Expiration date and time
@@ -143,6 +198,8 @@ export default {
       medalTypeOptions: [{ value: null, text: 'Medal Type' }, 'Bronze', 'Silver', 'Gold', 'Total'],
       countryA: null,
       countryB: null,
+      closeDate: null,
+      closeTime: null,
       expiryDate: null,
       expiryTime: null,
       timezone: 'Etc/GMT'
@@ -169,6 +226,18 @@ export default {
         { value: null, text: 'Sports' },
         ...Object.keys(olympics[this.season])
       ]
+    },
+
+    closeDateMin () {
+      return format(addDays(new Date(), 1), 'yyyy-MM-dd')
+    },
+
+    closeDateTime () {
+      if (this.closeDate && this.closeTime) {
+        return this.convertDateTime(this.closeDate, this.closeTime, this.timezone)
+      }
+
+      return null
     },
 
     expiryDateMin () {
@@ -204,10 +273,13 @@ export default {
           year: this.year,
           countryA: this.countryA,
           countryB: this.countryB,
+          closeDate: this.closeDateTime.toISOString(),
           expiryDate: this.expiryDateTime.toISOString()
         }
 
         this.$emit('validated', data, isValid)
+      } else {
+        this.scrollToTop()
       }
 
       return isValid
@@ -241,7 +313,7 @@ export default {
       required
     },
 
-    expiryDate: {
+    closeDate: {
       required,
       mustBeEqualOrHigher (value) {
         if (value === '') {
@@ -252,11 +324,26 @@ export default {
       }
     },
 
+    closeTime: {
+      required
+    },
+
+    expiryDate: {
+      required,
+      mustBeEqualOrHigher (value) {
+        if (value === '' || !this.expiryDateTime || !this.closeDateTime) {
+          return true
+        }
+
+        return this.expiryDateTime.getTime() >= this.closeDateTime.getTime()
+      }
+    },
+
     expiryTime: {
       required
     },
 
-    form: ['sport', 'countryA', 'countryB', 'medalType', 'season', 'year', 'expiryDate', 'expiryTime']
+    form: ['sport', 'countryA', 'countryB', 'medalType', 'season', 'year', 'closeDate', 'closeTime', 'expiryDate', 'expiryTime']
   }
 }
 </script>

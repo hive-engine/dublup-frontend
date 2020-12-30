@@ -19,7 +19,7 @@
         />
         anytime between the open of
         <b-form-datepicker
-          v-model="openDate"
+          v-model="startDate"
           width="200px"
           hide-header
           class="inline-input"
@@ -28,13 +28,13 @@
             month: 'short',
             day: 'numeric',
           }"
-          :min="openDateMin"
-          :max="openDateMax"
-          :state="$v.openDate.$dirty ? !$v.openDate.$error : null"
+          :min="startDateMin"
+          :max="startDateMax"
+          :state="$v.startDate.$dirty ? !$v.startDate.$error : null"
         />
         and close of
         <b-form-datepicker
-          v-model="closeDate"
+          v-model="endDate"
           width="200px"
           hide-header
           class="inline-input"
@@ -43,9 +43,9 @@
             month: 'short',
             day: 'numeric',
           }"
-          :min="closeDateMin"
-          :max="closeDateMax"
-          :state="$v.closeDate.$dirty ? !$v.closeDate.$error : null"
+          :min="endDateMin"
+          :max="endDateMax"
+          :state="$v.endDate.$dirty ? !$v.endDate.$error : null"
         />
         according to TradingView.com
         <b-form-select
@@ -55,6 +55,41 @@
           :state="$v.source.$dirty ? !$v.source.$error : null"
         />?
       </div>
+    </b-card>
+
+    <b-card class="mt-5" title="Market close time">
+      <p class="text-muted small">
+        After the market close time no new shares can be issued but existing shares can be traded on the secondary market.
+      </p>
+      <b-form-row>
+        <b-col sm="4" md="3" class="mb-3">
+          <b-form-datepicker
+            v-model="closeDate"
+            hide-header
+            :date-format-options="{
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            }"
+            :disabled="true"
+          />
+        </b-col>
+        <b-col sm="4" md="3" class="mb-3">
+          <b-form-timepicker
+            v-model="closeTime"
+            hide-header
+            menu-class="w-100"
+            :no-close-button="true"
+            :disabled="true"
+          />
+        </b-col>
+
+        <b-col cols="12" class="mb-3">
+          We will be using the UTC-0 timezone to standardize times. Ensure the
+          UTC-0 time is accurate and does not conflict with the resolution start
+          time.
+        </b-col>
+      </b-form-row>
     </b-card>
 
     <b-card class="mt-5" title="Resolution information">
@@ -146,8 +181,8 @@ export default {
         }
       ],
       price: '',
-      openDate: null,
-      closeDate: null,
+      startDate: null,
+      endDate: null,
       source: null,
       sourceOptions: {
         'BTC-USD': ['BTCUSD (crypto - Bitfinex)', 'BTCUSD (crypto - Bittrex)', 'BTCUSD (crypto - Coinbase)'],
@@ -172,35 +207,59 @@ export default {
     },
 
     expiryDate () {
-      if (this.closeDate) {
-        return format(addDays(utcToZonedTime(this.closeDate, 'Etc/GMT'), 1), 'yyyy-MM-dd')
+      if (this.endDate) {
+        return format(addDays(utcToZonedTime(this.endDate, 'Etc/GMT'), 1), 'yyyy-MM-dd')
       }
 
       return null
     },
 
     expiryTime () {
-      if (this.closeDate) {
-        return '00:00'
+      if (this.endDate) {
+        return '00:00:00'
       }
 
       return null
     },
 
-    openDateMin () {
+    startDateMin () {
       return format(addDays(new Date(), 1), 'yyyy-MM-dd')
     },
 
-    openDateMax () {
-      return format(addMonths(new Date(), 3), 'yyyy-MM-dd')
+    startDateMax () {
+      return format(addMonths(new Date(), 12), 'yyyy-MM-dd')
     },
 
-    closeDateMin () {
-      return format(new Date(this.openDate), 'yyyy-MM-dd')
+    endDateMin () {
+      return format(new Date(this.startDate), 'yyyy-MM-dd')
     },
 
-    closeDateMax () {
-      return format(addMonths(new Date(this.openDate), 3), 'yyyy-MM-dd')
+    endDateMax () {
+      return format(addMonths(new Date(this.startDate), 12), 'yyyy-MM-dd')
+    },
+
+    closeDate () {
+      if (this.startDate) {
+        return format(utcToZonedTime(this.convertDateTime(this.startDate), 'Etc/GMT'), 'yyyy-MM-dd')
+      }
+
+      return null
+    },
+
+    closeTime () {
+      if (this.startDate) {
+        return '00:00:00'
+      }
+
+      return null
+    },
+
+    closeDateTime () {
+      if (this.closeDate && this.closeTime) {
+        return this.convertDateTime(this.closeDate, this.closeTime)
+      }
+
+      return null
     },
 
     expiryDateTime () {
@@ -221,9 +280,10 @@ export default {
         const data = {
           pair: this.pair,
           price: this.price,
-          openDate: this.convertDateTime(this.openDate).toISOString(),
-          closeDate: this.convertDateTime(this.closeDate).toISOString(),
           source: this.source,
+          startDate: this.convertDateTime(this.startDate).toISOString(),
+          endDate: this.convertDateTime(this.endDate).toISOString(),
+          closeDate: this.closeDateTime.toISOString(),
           expiryDate: this.expiryDateTime.toISOString()
         }
 
@@ -244,18 +304,18 @@ export default {
       minValue: minValue(1)
     },
 
-    openDate: {
+    startDate: {
       required
     },
 
-    closeDate: {
+    endDate: {
       required,
       mustBeEqualOrHigher (value) {
         if (value === '') {
           return true
         }
 
-        return new Date(value) >= new Date(this.openDate)
+        return new Date(value) >= new Date(this.startDate)
       }
     },
 
@@ -263,7 +323,7 @@ export default {
       required
     },
 
-    form: ['pair', 'price', 'openDate', 'closeDate', 'source']
+    form: ['pair', 'price', 'startDate', 'endDate', 'source']
   }
 }
 </script>

@@ -14,7 +14,7 @@ export default {
 
       self.dataLoaded = false
 
-      await self.sleep(15 * 1000)
+      await self.sleep(10 * 1000)
 
       await self.$fetch()
     })

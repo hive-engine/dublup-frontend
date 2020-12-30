@@ -1,5 +1,5 @@
 <template>
-  <b-badge :class="getMarketStatus.toLowerCase()">
+  <b-badge class="market-status-badge" :class="getMarketStatus.replace(' ', '-').toLowerCase()">
     {{ getMarketStatus }}
   </b-badge>
 </template>
@@ -14,12 +14,16 @@ export default {
 
   computed: {
     getMarketStatus () {
-      return (this.status === 0) ? 'Hidden' : (this.status === 1) ? 'Market Open' : (this.status === 2) ? 'Reporting' : (this.status === 3) ? 'Reported' : (this.status === 4) ? 'Disputing' : 'Finalized'
+      return (this.status === 0) ? 'Hidden' : (this.status === 1) ? 'Market Open' : (this.status === 2) ? 'Market Closed' : (this.status === 3) ? 'Reporting' : (this.status === 4) ? 'Reported' : 'Finalized'
     }
   }
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.market-status-badge {
+  font-size: 14px;
+  border: none;
+  vertical-align: middle
+}
 </style>

@@ -20,7 +20,7 @@
         />
         on
         <b-form-datepicker
-          v-model="openDate"
+          v-model="startDate"
           hide-header
           class="inline-input"
           :date-format-options="{
@@ -30,7 +30,7 @@
           }"
           :min="startDateMin"
           :max="startDateMax"
-          :state="$v.openDate.$dirty ? !$v.openDate.$error : null"
+          :state="$v.startDate.$dirty ? !$v.startDate.$error : null"
         />
         according to TradingView.com
         <b-form-select
@@ -40,6 +40,41 @@
           :state="$v.source.$dirty ? !$v.source.$error : null"
         />?
       </div>
+    </b-card>
+
+    <b-card class="mt-5" title="Market close time">
+      <p class="text-muted small">
+        After the market close time no new shares can be issued but existing shares can be traded on the secondary market.
+      </p>
+      <b-form-row>
+        <b-col sm="4" md="3" class="mb-3">
+          <b-form-datepicker
+            v-model="closeDate"
+            hide-header
+            :date-format-options="{
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            }"
+            :disabled="true"
+          />
+        </b-col>
+        <b-col sm="4" md="3" class="mb-3">
+          <b-form-timepicker
+            v-model="closeTime"
+            hide-header
+            menu-class="w-100"
+            :no-close-button="true"
+            :disabled="true"
+          />
+        </b-col>
+
+        <b-col cols="12" class="mb-3">
+          We will be using the UTC-0 timezone to standardize times. Ensure the
+          UTC-0 time is accurate and does not conflict with the resolution start
+          time.
+        </b-col>
+      </b-form-row>
     </b-card>
 
     <b-card class="mt-5" title="Resolution information">
@@ -112,7 +147,7 @@ export default {
     return {
       pair: null,
       price: '',
-      openDate: '',
+      startDate: '',
       source: null,
 
       pairOptions: [
@@ -167,16 +202,16 @@ export default {
     },
 
     expiryDate () {
-      if (this.openDate) {
-        return format(addDays(utcToZonedTime(this.openDate, 'Etc/GMT'), 1), 'yyyy-MM-dd')
+      if (this.startDate) {
+        return format(addDays(utcToZonedTime(this.startDate, 'Etc/GMT'), 1), 'yyyy-MM-dd')
       }
 
       return null
     },
 
     expiryTime () {
-      if (this.openDate) {
-        return '00:00'
+      if (this.startDate) {
+        return '00:00:00'
       }
 
       return null
@@ -187,7 +222,31 @@ export default {
     },
 
     startDateMax () {
-      return format(addMonths(new Date(), 3), 'yyyy-MM-dd')
+      return format(addMonths(new Date(), 12), 'yyyy-MM-dd')
+    },
+
+    closeDate () {
+      if (this.startDate) {
+        return format(utcToZonedTime(this.convertDateTime(this.startDate), 'Etc/GMT'), 'yyyy-MM-dd')
+      }
+
+      return null
+    },
+
+    closeTime () {
+      if (this.startDate) {
+        return '00:00:00'
+      }
+
+      return null
+    },
+
+    closeDateTime () {
+      if (this.closeDate && this.closeTime) {
+        return this.convertDateTime(this.closeDate, this.closeTime)
+      }
+
+      return null
     },
 
     expiryDateTime () {
@@ -208,8 +267,9 @@ export default {
         const data = {
           pair: this.pair,
           price: this.price,
-          openDate: this.convertDateTime(this.openDate).toISOString(),
           source: this.source,
+          startDate: this.convertDateTime(this.startDate).toISOString(),
+          closeDate: this.closeDateTime.toISOString(),
           expiryDate: this.expiryDateTime.toISOString()
         }
 
@@ -230,7 +290,7 @@ export default {
       minValue: minValue(0.001)
     },
 
-    openDate: {
+    startDate: {
       required
     },
 
@@ -238,7 +298,7 @@ export default {
       required
     },
 
-    form: ['pair', 'price', 'openDate', 'source']
+    form: ['pair', 'price', 'startDate', 'source']
   }
 }
 </script>

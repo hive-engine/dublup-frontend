@@ -35,7 +35,7 @@ export default {
   },
 
   async fetch () {
-    const query = { status: 2, oracle: this.username }
+    const query = { status: 3, oracle: this.username }
     const { category, sub_category: subCategory, page } = this.$route.query
 
     if (category) { query.category = category }

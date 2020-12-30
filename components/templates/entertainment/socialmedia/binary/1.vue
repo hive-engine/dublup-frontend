@@ -35,6 +35,41 @@
       </div>
     </b-card>
 
+    <b-card class="mt-5" title="Market close time">
+      <p class="text-muted small">
+        After the market close time no new shares can be issued but existing shares can be traded on the secondary market.
+      </p>
+      <b-form-row>
+        <b-col sm="4" md="3" class="mb-3">
+          <b-form-datepicker
+            v-model="closeDate"
+            hide-header
+            :date-format-options="{
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            }"
+            :disabled="true"
+          />
+        </b-col>
+        <b-col sm="4" md="3" class="mb-3">
+          <b-form-timepicker
+            v-model="closeTime"
+            hide-header
+            menu-class="w-100"
+            :no-close-button="true"
+            :disabled="true"
+          />
+        </b-col>
+
+        <b-col cols="12" class="mb-3">
+          We will be using the UTC-0 timezone to standardize times. Ensure the
+          UTC-0 time is accurate and does not conflict with the resolution start
+          time.
+        </b-col>
+      </b-form-row>
+    </b-card>
+
     <b-card class="mt-5" title="Resolution information">
       <h5 class="mt-4 mb-3">
         Event Expiration date and time
@@ -134,7 +169,31 @@ export default {
     },
 
     startDateMax () {
-      return format(addMonths(new Date(), 3), 'yyyy-MM-dd')
+      return format(addMonths(new Date(), 12), 'yyyy-MM-dd')
+    },
+
+    closeDate () {
+      if (this.date) {
+        return format(utcToZonedTime(this.convertDateTime(this.date), 'Etc/GMT'), 'yyyy-MM-dd')
+      }
+
+      return null
+    },
+
+    closeTime () {
+      if (this.date) {
+        return '00:00:00'
+      }
+
+      return null
+    },
+
+    closeDateTime () {
+      if (this.closeDate && this.closeTime) {
+        return this.convertDateTime(this.closeDate, this.closeTime)
+      }
+
+      return null
     },
 
     expiryDateTime () {
@@ -157,6 +216,7 @@ export default {
           username: this.username,
           followers: this.followers,
           date: this.convertDateTime(this.date).toISOString(),
+          closeDate: this.closeDateTime.toISOString(),
           expiryDate: this.expiryDateTime.toISOString()
         }
 

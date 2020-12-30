@@ -23,7 +23,7 @@
         </li>
       </ul>
 
-      <b-alert :show="market.status === 2" variant="info">
+      <b-alert :show="market.status === 3" variant="info">
         <div class="d-flex justify-content-between">
           <div class="p-2">
             Market is in reporting state. You can not buy new shares.
@@ -45,7 +45,16 @@
           </h5><hr>
 
           <p>
-            {{ format(new Date(market.created_at), "MMMM dd, yyyy hh:mm aa") }}
+            {{ format(utcToZonedTime(market.created_at, 'Etc/GMT'), "MMMM dd, yyyy hh:mm aa") }}
+            (UTC-0)
+          </p>
+
+          <h5 class="mt-3">
+            Market Close
+          </h5><hr>
+
+          <p>
+            {{ format(utcToZonedTime(market.closes_at, 'Etc/GMT'), "MMMM dd, yyyy hh:mm aa") }}
             (UTC-0)
           </p>
 
@@ -54,7 +63,7 @@
           </h5><hr>
 
           <p>
-            {{ format(new Date(market.expires_at), "MMMM dd, yyyy hh:mm aa") }}
+            {{ format(utcToZonedTime(market.expires_at, 'Etc/GMT'), "MMMM dd, yyyy hh:mm aa") }}
             (UTC-0)
           </p>
         </b-col>
@@ -228,7 +237,7 @@
               />
             </b-form-group>
 
-            <b-button variant="primary" :disabled="buyQuantity > getFilteredFoSale.length || caculateEstimatedPrice > balance.balance" @click.prevent="buyFromMarket">
+            <b-button variant="primary" :disabled="buyQuantity > getFilteredFoSale.length || caculateEstimatedPrice > balance.balance || market.status > 2" @click.prevent="buyFromMarket">
               Buy
             </b-button>
           </b-form>
@@ -252,7 +261,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { format } from 'date-fns'
+import { format, utcToZonedTime } from 'date-fns-tz'
 import { required, numeric, minValue } from 'vuelidate/lib/validators'
 import EventListeners from '@/mixins/events-listener'
 import AddToQueue from '@/components/AddToQueue.vue'
@@ -423,6 +432,7 @@ export default {
     ...mapActions('market', ['fetchMarket', 'requestBuyShares', 'requestBuyFromMarket', 'fetchNFTInstances', 'fetchForSale', 'requestCancelSale']),
 
     format,
+    utcToZonedTime,
 
     buyShares () {
       this.$v.buyShares.$touch()
@@ -451,7 +461,7 @@ export default {
     resetForm () {
       this.$v.$reset()
 
-      this.outcome = ''
+      this.outcome = null
       this.quantity = ''
       this.buyQuantity = ''
       this.filter = null

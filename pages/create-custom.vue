@@ -106,6 +106,61 @@
         </b-form-row>
       </b-card>
 
+      <b-card class="mt-3" title="Market close time" title-tag="h5">
+        <p class="text-muted small">
+          After the market close time no new shares can be issued but existing shares can be traded on the secondary market.
+        </p>
+
+        <b-form-row>
+          <b-col sm="4" md="3" class="mb-3">
+            <b-form-datepicker
+              v-model="closeDate"
+              hide-header
+              :date-format-options="{
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+              }"
+              :min="closeDateMin"
+              :state="$v.closeDate.$dirty ? !$v.closeDate.$error : null"
+            />
+          </b-col>
+          <b-col sm="4" md="3" class="mb-3">
+            <b-form-timepicker
+              v-model="closeTime"
+              hide-header
+              menu-class="w-100"
+              :no-close-button="true"
+              :state="$v.closeTime.$dirty ? !$v.closeTime.$error : null"
+            />
+          </b-col>
+
+          <b-col sm="4" md="3" class="mb-3">
+            <b-form-select
+              v-model="timezone"
+              :options="timezones"
+            />
+          </b-col>
+
+          <b-col v-if="closeDateTime" cols="12" class="mb-3">
+            <b-form-row>
+              <b-col cols="12" md="6" lg="4" class="mb-3">
+                Converted to UTC-0:
+                <p class="mb-0 text-info">
+                  <DateToUTC :datetime="closeDateTime.toISOString()" />
+                </p>
+              </b-col>
+
+              <b-col cols="12" md="6" lg="8" class="mb-3 text-muted">
+                We will be using the UTC-0 timezone to standardize times. Ensure the
+                UTC-0 time is accurate and does not conflict with the resolution start
+                time.
+              </b-col>
+            </b-form-row>
+          </b-col>
+        </b-form-row>
+      </b-card>
+
       <b-card class="mt-3" title="Event expiration date and time" title-tag="h5">
         <p class="text-muted small">
           Choose a date and time that is sufficiently after the end of the
@@ -262,6 +317,14 @@ import MarketPreview from '@/components/MarketPreview.vue'
 import jsonCategories from '@/assets/data/categories.json'
 import timezones from '@/assets/data/timezones.json'
 
+function isUniqueOutcome (value) {
+  if (value === '') { return true }
+
+  const outcomes = this.outcomes.map(o => o.value)
+
+  return new Set(outcomes).size === outcomes.length
+}
+
 export default {
   name: 'CustomCreate',
 
@@ -284,6 +347,8 @@ export default {
       question: '',
       category: null,
       subCategory: null,
+      closeDate: null,
+      closeTime: null,
       expiryDate: null,
       expiryTime: null,
       timezone: 'Etc/GMT',
@@ -328,6 +393,18 @@ export default {
       }
 
       return subCategories
+    },
+
+    closeDateMin () {
+      return format(addDays(new Date(), 1), 'yyyy-MM-dd')
+    },
+
+    closeDateTime () {
+      if (this.closeDate && this.closeTime) {
+        return this.convertDateTime(this.closeDate, this.closeTime, this.timezone)
+      }
+
+      return null
     },
 
     expiryDateMin () {
@@ -404,6 +481,7 @@ export default {
       const data = {
         question: this.question,
         rules: [this.rulesA, this.rulesB].filter(r => r !== ''),
+        closeDate: this.closeDateTime ? this.closeDateTime.toISOString() : this.closeDateTime,
         expiryDate: this.expiryDateTime ? this.expiryDateTime.toISOString() : this.expiryDateTime
       }
 
@@ -413,6 +491,8 @@ export default {
 
       if (isValid) {
         this.SET_QUESTION_DATA({ category: this.category, sub_category: this.subCategory, type: this.marketType, template: 'custom', ...data })
+      } else {
+        this.scrollToTop()
       }
 
       return isValid
@@ -452,8 +532,30 @@ export default {
       required
     },
 
-    expiryDate: {
+    closeDate: {
+      required,
+      mustBeEqualOrHigher (value) {
+        if (value === '') {
+          return true
+        }
+
+        return new Date(value).getTime() > Date.now()
+      }
+    },
+
+    closeTime: {
       required
+    },
+
+    expiryDate: {
+      required,
+      mustBeEqualOrHigher (value) {
+        if (value === '' || !this.expiryDateTime || !this.closeDateTime) {
+          return true
+        }
+
+        return this.expiryDateTime.getTime() >= this.closeDateTime.getTime()
+      }
     },
 
     expiryTime: {
@@ -475,12 +577,13 @@ export default {
           required: requiredIf(function () {
             return this.marketType === 'categorical'
           }),
-          minLength: minLength(2)
+          minLength: minLength(2),
+          isUniqueOutcome
         }
       }
     },
 
-    form: ['question', 'category', 'subCategory', 'expiryDate', 'expiryTime', 'rulesA', 'outcomes']
+    form: ['question', 'category', 'subCategory', 'closeDate', 'closeTime', 'expiryDate', 'expiryTime', 'rulesA', 'outcomes']
   }
 }
 </script>

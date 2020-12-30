@@ -231,11 +231,12 @@ a {
 }
 
 .badge {
-  &.open {
+  &.market-open {
     background-color: $blue;
   }
 
-  &.inactive {
+  &.inactive,
+  &.market-closed {
     background-color: $secondary;
   }
 

@@ -25,7 +25,7 @@
       </div>
     </b-card>
 
-    <b-card class="mt-3" title="Estimated start time">
+    <b-card class="mt-5" title="Estimated start time">
       <b-form-row>
         <b-col sm="4" md="3" class="mb-3">
           <b-form-datepicker
@@ -77,12 +77,47 @@
       </b-form-row>
     </b-card>
 
-    <b-card class="mt-3" title="Outcomes">
+    <b-card class="mt-5" title="Outcomes">
       <ol class="outcomes-list">
         <li v-for="(outcome, i) of calculatedOutComes" :key="i">
           {{ outcome }}
         </li>
       </ol>
+    </b-card>
+
+    <b-card class="mt-5" title="Market close time">
+      <p class="text-muted small">
+        After the market close time no new shares can be issued but existing shares can be traded on the secondary market.
+      </p>
+      <b-form-row>
+        <b-col sm="4" md="3" class="mb-3">
+          <b-form-datepicker
+            v-model="closeDate"
+            hide-header
+            :date-format-options="{
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            }"
+            :disabled="true"
+          />
+        </b-col>
+        <b-col sm="4" md="3" class="mb-3">
+          <b-form-timepicker
+            v-model="closeTime"
+            hide-header
+            menu-class="w-100"
+            :no-close-button="true"
+            :disabled="true"
+          />
+        </b-col>
+
+        <b-col cols="12" class="mb-3">
+          We will be using the UTC-0 timezone to standardize times. Ensure the
+          UTC-0 time is accurate and does not conflict with the resolution start
+          time.
+        </b-col>
+      </b-form-row>
     </b-card>
 
     <b-card class="mt-5" title="Resolution information">
@@ -182,30 +217,6 @@ export default {
       return timezones.map(tz => ({ value: tz.tzCode, text: tz.label }))
     },
 
-    expiryDate () {
-      if (this.startDate && this.startTime) {
-        return format(addHours(utcToZonedTime(this.startDateTime.toISOString(), 'Etc/GMT'), 9), 'yyyy-MM-dd')
-      }
-
-      return null
-    },
-
-    expiryTime () {
-      if (this.startDate && this.startTime) {
-        return format(addHours(utcToZonedTime(this.startDateTime.toISOString(), 'Etc/GMT'), 9), 'HH:mm:ss')
-      }
-
-      return null
-    },
-
-    startDateMin () {
-      return format(addDays(new Date(), 1), 'yyyy-MM-dd')
-    },
-
-    startDateMax () {
-      return format(addMonths(new Date(), 3), 'yyyy-MM-dd')
-    },
-
     calculatedOutComes () {
       const outcomes = ['Over [Round #].5', 'Under [Round #].5', 'No Contest']
 
@@ -217,9 +228,57 @@ export default {
       return outcomes
     },
 
+    startDateMin () {
+      return format(addDays(new Date(), 1), 'yyyy-MM-dd')
+    },
+
+    startDateMax () {
+      return format(addMonths(new Date(), 12), 'yyyy-MM-dd')
+    },
+
     startDateTime () {
       if (this.startDate && this.startTime) {
         return this.convertDateTime(this.startDate, this.startTime, this.timezone)
+      }
+
+      return null
+    },
+
+    closeDate () {
+      if (this.startDate && this.startTime) {
+        return format(utcToZonedTime(this.startDateTime.toISOString(), 'Etc/GMT'), 'yyyy-MM-dd')
+      }
+
+      return null
+    },
+
+    closeTime () {
+      if (this.startDate && this.startTime) {
+        return format(utcToZonedTime(this.startDateTime.toISOString(), 'Etc/GMT'), 'HH:mm:ss')
+      }
+
+      return null
+    },
+
+    closeDateTime () {
+      if (this.closeDate && this.closeTime) {
+        return this.startDateTime
+      }
+
+      return null
+    },
+
+    expiryDate () {
+      if (this.startDate && this.startTime) {
+        return format(addHours(utcToZonedTime(this.startDateTime.toISOString(), 'Etc/GMT'), 9), 'yyyy-MM-dd')
+      }
+
+      return null
+    },
+
+    expiryTime () {
+      if (this.startDate && this.startTime) {
+        return format(addHours(utcToZonedTime(this.startDateTime.toISOString(), 'Etc/GMT'), 9), 'HH:mm:ss')
       }
 
       return null
@@ -245,11 +304,14 @@ export default {
           fighterB: this.fighterB,
           rounds: this.rounds,
           startDate: this.startDateTime.toISOString(),
+          closeDate: this.closeDateTime.toISOString(),
           expiryDate: this.expiryDateTime.toISOString(),
           outcomes: this.calculatedOutComes
         }
 
         this.$emit('validated', data, isValid)
+      } else {
+        this.scrollToTop()
       }
 
       return isValid

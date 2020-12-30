@@ -23,6 +23,13 @@
         (UTC-0)
       </b-col>
 
+      <b-col v-if="questionData.closeDate" cols="12" class="mt-4">
+        <h6>Market Close Date and Time</h6>
+
+        <DateToUTC :datetime="questionData.closeDate" />
+        (UTC-0)
+      </b-col>
+
       <b-col cols="12" class="mt-4">
         <h6>Expiration Date and Time</h6>
 
@@ -93,7 +100,7 @@ export default {
       if (!question) { return }
 
       return question.replaceable.replace(/\[(\w+)\]/g, (match, p) => {
-        if (['openDate', 'startDate', 'closeDate', 'date'].includes(p)) {
+        if (['startDate', 'endDate', 'date'].includes(p)) {
           return format(utcToZonedTime(this.questionData[p], 'Etc/GMT'), 'MMMM dd, yyyy')
         }
 
