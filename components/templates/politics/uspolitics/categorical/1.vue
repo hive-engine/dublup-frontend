@@ -279,7 +279,7 @@ export default {
           return true
         }
 
-        return new Date(value).getFullYear() >= this.year
+        return new Date(value).getFullYear() >= this.year - 1
       }
     },
 
