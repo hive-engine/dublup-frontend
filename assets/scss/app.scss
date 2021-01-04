@@ -259,3 +259,93 @@ a {
     background-color: $success;
   }
 }
+
+
+.notifications-dropdown {
+  padding: 0;
+  min-width: 350px;
+
+  .notifications-panel {
+    padding-bottom: 10px;
+  }
+
+  .dropdown-header {
+    padding: 10px;
+    font-weight: bold;
+    border-bottom: 1px solid rgba($color: #000000, $alpha: 0.1);
+  }
+
+  .notifications-empty {
+    padding: 10px;
+    text-align: center;
+  }
+
+  .notification {
+    .media-body {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    &:not(:last-of-type) {
+      border-bottom: 1px solid #dfdfdf;
+    }
+
+    .media-aside {
+      margin-right: 5px;
+    }
+  }
+
+  .notification-list {
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #cdcdcd #f0f0f0;
+    // padding: 0 10px;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f0f0f0;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #cdcdcd;
+    }
+  }
+
+  .notification-icon {
+    padding: 5px;
+
+    .rounded-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 1px solid #dfdfdf;
+      line-height: 45px;
+      text-align: center;
+
+      &.sell {
+        background-color: #fc8a82;
+        border-color: #fb5b50;
+      }
+
+      &.buy {
+        background-color: #98e6b4;
+        border-color: #6fdc96;
+      }
+
+      &.gift {
+        background-color: #f68657;
+        border-color: #f6b352;
+      }
+
+      &.royalty_payment,
+      &.referral_bonus {
+        background-color: #a593e0;
+        border-color: #d499b9;
+      }
+    }
+  }
+}

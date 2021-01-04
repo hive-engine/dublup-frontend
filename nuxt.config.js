@@ -87,7 +87,8 @@ export default {
       'AvatarPlugin',
       'FormTagsPlugin',
       'BadgePlugin',
-      'ProgressPlugin'
+      'ProgressPlugin',
+      'MediaPlugin'
     ]
   },
 

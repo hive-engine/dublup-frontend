@@ -53,6 +53,28 @@
                 </b-badge>
               </b-nav-item>
 
+              <b-nav-item-dropdown
+                right
+                no-caret
+                menu-class="notifications-dropdown"
+                title="Notifications"
+                toggle-class="badge-holder"
+              >
+                <template #button-content>
+                  <v-icon name="bell" />
+                  <span class="d-lg-none">Notification</span>
+                  <b-badge
+                    v-if="notifications.length > 0"
+                    class="navbar-badge"
+                    pill
+                    variant="primary"
+                  >
+                    {{ notifications.length }}
+                  </b-badge>
+                </template>
+                <NotificationsPanel />
+              </b-nav-item-dropdown>
+
               <b-nav-item-dropdown right>
                 <template #button-content>
                   <v-icon name="user" />&nbsp; {{ username }}
@@ -80,9 +102,14 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import NotificationsPanel from '@/components/NotificationsPanel.vue'
 
 export default {
   name: 'Header',
+
+  components: {
+    NotificationsPanel
+  },
 
   data () {
     return {

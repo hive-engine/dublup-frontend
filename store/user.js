@@ -10,6 +10,7 @@ export const state = () => ({
     balance: 0,
     stake: 0
   },
+  notifications: [],
   profile: null
 })
 
@@ -25,6 +26,7 @@ export const getters = {
     return false
   },
   profile: state => state.profile,
+  notifications: state => state.notifications,
   balance: state => state.balance,
   token: state => state.token
 }
@@ -48,6 +50,10 @@ export const mutations = {
 
   SET_TOKEN (state, data) {
     state.token = data
+  },
+
+  SET_NOTIFICATIONS: (state, data) => {
+    state.notifications = data
   },
 
   SET_TOKEN_BALANCE (state, data) {
@@ -98,8 +104,11 @@ export const actions = {
       commit('SET_USER', { username, admin, oracle, authenticated: true, smartlock, token })
       commit('SET_PROFILE', { token, oracle, banned, admin })
 
-      await dispatch('message/beeChatLogin', { username, ts, sig }, { root: true })
-      await dispatch('fetchUserTokenBalance')
+      await Promise.all([
+        dispatch('message/beeChatLogin', { username, ts, sig }, { root: true }),
+        dispatch('fetchUserTokenBalance'),
+        dispatch('fetchNotifications')
+      ])
 
       localStorage.setItem('username', username)
 
@@ -147,6 +156,17 @@ export const actions = {
     }
   },
 
+  async fetchNotifications ({ state, commit }) {
+    try {
+      const data = await this.$API.call('users/notifications')
+
+      const notifications = data.map(d => ({ ...d, data: JSON.parse(d.data) }))
+      commit('SET_NOTIFICATIONS', notifications)
+    } catch (e) {
+      console.log(e.message)
+    }
+  },
+
   async fetchUserTokenBalance ({ commit, state, rootState }, username = null) {
     try {
       const [tokenBal] = await this.$sidechain.getBalances(username || state.username, rootState.settings.currency)
@@ -174,5 +194,15 @@ export const actions = {
     }
 
     dispatch('requestCustomJson', jsonData, { root: true })
+  },
+
+  async markNotificationsAsRead ({ state, commit }) {
+    try {
+      await this.$API.$post('users/notifications', { ids: state.notifications.map(n => n.id) })
+
+      commit('SET_NOTIFICATIONS', [])
+    } catch (e) {
+      console.log(e.message)
+    }
   }
 }

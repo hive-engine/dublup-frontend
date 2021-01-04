@@ -75,6 +75,13 @@ export default {
 
   methods: {
     ...mapActions(['fetchSettings']),
+    ...mapActions('user', ['fetchNotifications']),
+
+    async notifications () {
+      if (this.isAuthenticated) {
+        await this.fetchNotifications()
+      }
+    },
 
     connectWebsocket () {
       this.disconnectWebsocket()
@@ -191,7 +198,8 @@ export default {
   },
 
   timers: {
-    fetchSettings: { time: 10 * 60 * 1000, autostart: true, immediate: false, repeat: true }
+    fetchSettings: { time: 10 * 60 * 1000, autostart: true, immediate: false, repeat: true },
+    notifications: { time: 60 * 1000, autostart: true, immediate: true, repeat: true }
   }
 }
 </script>

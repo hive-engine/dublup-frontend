@@ -27,6 +27,7 @@
             month: 'short',
             day: 'numeric',
           }"
+          :min="new Date()"
           :state="$v.date.$dirty ? !$v.date.$error : null"
         /> according to https://www.worldometers.info/coronavirus/?
       </div>
