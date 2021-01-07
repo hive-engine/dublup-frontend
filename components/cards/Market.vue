@@ -1,5 +1,5 @@
 <template>
-  <article class="market">
+  <article class="market" :class="{'market-closed-bg': market.status ===2}">
     <b-row>
       <b-col>
         <div class="category">
