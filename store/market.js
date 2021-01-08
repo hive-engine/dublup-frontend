@@ -322,7 +322,7 @@ export const actions = {
 
         jsonData.data.payload = payload
 
-        await sleep(300)
+        await sleep(1000)
 
         encoded = true
       } catch (e) {
