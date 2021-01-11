@@ -3,7 +3,7 @@
     <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-container>
         <b-navbar-brand to="/">
-          Predict.Land
+          dublup.io
         </b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse" />

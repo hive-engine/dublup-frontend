@@ -2,7 +2,7 @@
   <div class="container">
     <h3>Transactions</h3><hr>
 
-    <div v-if="transactions.length >0" class="mt-3">
+    <div class="mt-3">
       <b-row>
         <b-col
           offset-sm="7"
@@ -16,7 +16,7 @@
         </b-col>
       </b-row>
 
-      <ul class="list-unstyled mt-5">
+      <ul v-if="transactions.length >0" class="list-unstyled mt-5">
         <li v-for="(transaction, i) of transactions" :key="i" class="mb-3 pb-2 border-bottom">
           You have
           <template v-if="transaction.type === 'create-market'">
@@ -85,11 +85,11 @@
           >[view tx]</a>
         </li>
       </ul>
-    </div>
 
-    <p v-else class="mt-5">
-      No transactions has been found.
-    </p>
+      <p v-else class="mt-5">
+        No transactions has been found.
+      </p>
+    </div>
   </div>
 </template>
 

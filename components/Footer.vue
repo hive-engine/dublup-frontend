@@ -2,7 +2,7 @@
   <footer class="footer">
     <div class="container">
       <hr>
-      &copy; Predict.Land
+      &copy; dublup.io
     </div>
   </footer>
 </template>

@@ -1,5 +1,5 @@
 {
-  "name": "predictionmarket",
+  "name": "dublup-frontend",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -13,10 +13,10 @@
   "dependencies": {
     "@hiveio/dhive": "^0.14.12",
     "@hiveio/hive-js": "^0.8.12",
-    "@nuxtjs/axios": "^5.12.4",
+    "@nuxtjs/axios": "^5.12.5",
     "bootstrap": "^4.5.3",
-    "bootstrap-vue": "^2.21.1",
-    "core-js": "^3.8.1",
+    "bootstrap-vue": "^2.21.2",
+    "core-js": "^3.8.2",
     "date-fns": "^2.16.1",
     "date-fns-tz": "^1.0.12",
     "emoji-mart-vue-fast": "^7.0.7",
@@ -39,10 +39,10 @@
     "@nuxtjs/eslint-config": "^5.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.16.0",
+    "eslint": "^7.17.0",
     "eslint-plugin-nuxt": "^2.0.0",
     "fibers": "^5.0.0",
-    "sass": "^1.32.0",
+    "sass": "^1.32.2",
     "sass-loader": "^10.1.0"
   }
 }

@@ -49,7 +49,7 @@
       </b-alert>
 
       <b-form-group label="Hive username">
-        <b-form-input v-model="username" trim />
+        <b-form-input v-model="username" trim @input="symbol=$event.toLowerCase()" />
       </b-form-group>
 
       <b-form-group label="Hive Private Active Key">
