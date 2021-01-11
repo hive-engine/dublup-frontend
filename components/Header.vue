@@ -28,26 +28,26 @@
               v-if="!isAuthenticated"
               @click.prevent="$bvModal.show('loginModal')"
             >
-              <v-icon name="user" />&nbsp; Login
+              <v-icon class="d-lg-none d-xl-inline" name="user" />&nbsp; Login
             </b-nav-item>
 
             <template v-if="isAuthenticated">
               <b-nav-item :to="{ name: 'create' }">
-                <v-icon name="edit-3" />&nbsp; Create
+                <v-icon class="d-lg-none d-xl-inline" name="edit-3" />&nbsp; Create
               </b-nav-item>
 
               <b-nav-item v-if="isOracle" :to="{ name: 'report' }">
-                <v-icon name="code" />&nbsp; Settle Markets
+                <v-icon class="d-lg-none d-xl-inline" name="code" />&nbsp; Settle Markets
               </b-nav-item>
 
               <b-nav-item :to="{ name: 'user-dashboard', params: { user: username } }">
-                <v-icon name="wind" />&nbsp; Dashboard
+                <v-icon class="d-lg-none d-xl-inline" name="wind" />&nbsp; Dashboard
               </b-nav-item>
 
               <b-nav-item
                 :to="{ name: 'user-messages', params: { user: username } }"
               >
-                <v-icon name="message-square" />&nbsp; Messages
+                <v-icon class="d-lg-none d-xl-inline" name="message-square" />&nbsp; Messages
                 <b-badge v-if="newMessages > 0" pill variant="warning">
                   {{ newMessages }}
                 </b-badge>
@@ -77,7 +77,7 @@
 
               <b-nav-item-dropdown right>
                 <template #button-content>
-                  <v-icon name="user" />&nbsp; {{ username }}
+                  <v-icon class="d-lg-none d-xl-inline" name="user" />&nbsp; {{ username }}
                 </template>
                 <b-dropdown-item v-if="isAdmin" :to="{name:'admin'}">
                   Admin Dashboard
