@@ -136,7 +136,7 @@ export default {
       }
     },
 
-    processMessage (message) {
+    async processMessage (message) {
       if (message.type === 'register-oracle') {
         this.$notify({
           title: 'Oracle Registration',
@@ -193,6 +193,20 @@ export default {
         })
 
         this.$eventBus.$emit('hide-market-notification', payload)
+      }
+
+      if (message.type === 'update-settings') {
+        await this.fetchSettings()
+      }
+
+      if (message.type === 'settings-updated') {
+        const payload = JSON.parse(message.payload)
+
+        this.$notify({
+          title: 'Settings Update',
+          type: payload.success ? 'success' : 'error',
+          text: payload.success ? 'Settings updated successfully.' : 'Settings update has failed'
+        })
       }
     }
   },

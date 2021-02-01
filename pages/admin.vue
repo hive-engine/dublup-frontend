@@ -41,6 +41,30 @@
         </b-button>
       </template>
     </b-card>
+
+    <b-card title="Update Global Settings" title-tag="h5">
+      <b-form-row>
+        <b-col>
+          <b-form-group label="Market Creation fee">
+            <b-input-group :append="settings.currency">
+              <b-form-input v-model.number="creationFee" />
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+
+        <b-col>
+          <b-form-group label="Per Share Price">
+            <b-input-group :append="settings.currency">
+              <b-form-input v-model.number="sharePrice" />
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+      </b-form-row>
+
+      <b-button variant="primary" @click.passive="updateSettings">
+        Update
+      </b-button>
+    </b-card>
   </div>
 </template>
 
@@ -59,12 +83,20 @@ export default {
 
   data () {
     return {
-      marketId: ''
+      marketId: '',
+      creationFee: '',
+      sharePrice: ''
     }
   },
 
   computed: {
+    ...mapGetters(['settings']),
     ...mapGetters('admin', ['market'])
+  },
+
+  created () {
+    this.creationFee = this.settings.creation_fee
+    this.sharePrice = this.settings.share_price
   },
 
   mounted () {
@@ -77,10 +109,21 @@ export default {
 
   methods: {
     ...mapMutations('admin', ['SET_MARKET_DATA']),
-    ...mapActions('admin', ['fetchMarket', 'requestHideMarket']),
+    ...mapActions('admin', ['fetchMarket', 'requestHideMarket', 'requestUpdateSettings']),
 
     async fetchmarketInfo () {
       await this.fetchMarket(this.marketId)
+    },
+
+    updateSettings () {
+      const payload = {}
+
+      if (this.creationFee !== this.settings.creation_fee) { payload.creation_fee = this.creationFee }
+      if (this.sharePrice !== this.settings.share_price) { payload.share_price = this.sharePrice }
+
+      if (Object.keys(payload).length > 0) {
+        this.requestUpdateSettings(payload)
+      }
     }
   }
 }

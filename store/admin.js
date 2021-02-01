@@ -37,5 +37,19 @@ export const actions = {
     }
 
     dispatch('requestCustomJson', jsonData, { root: true })
+  },
+
+  requestUpdateSettings ({ rootState, dispatch, commit }, payload) {
+    const json = { action: 'update-settings', payload }
+
+    const jsonData = {
+      id: rootState.settings.app_id,
+      key: 'Active',
+      data: json,
+      message: 'Update Settings',
+      eventName: 'update-settings-successful'
+    }
+
+    dispatch('requestCustomJson', jsonData, { root: true })
   }
 }
