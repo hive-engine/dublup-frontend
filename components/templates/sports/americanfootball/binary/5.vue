@@ -9,7 +9,7 @@
           :options="[{ value: null, text: 'Team' }, ...nftTeams]"
           :state="$v.team.$dirty ? !$v.team.$error : null"
         />
-        win SuperBowl
+        win Big Game
         <b-form-select
           v-model="numeral"
           class="inline-input"

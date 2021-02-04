@@ -50,9 +50,9 @@
     "If the league's regular season will not conclude before the Market’s Event Expiration time begins for any reason, this market should resolve as 'Invalid'."
   ],
   "sports-americanfootball-binary-5": [
-    "If the season is officially cancelled and no SuperBowl is played, this market should resolve as 'No'",
-    "If the league suspends play and starts up again at a later date, and the winner of the SuperBowl is determined before the Market’s Event Expiration begins, this market is still valid and should be settled accordingly.",
-    "If the league suspends play and starts up again at a later date, and the winner of the SuperBowl is determined after the Market’s Event Expiration begins, this market should resolve as 'Invalid'."
+    "If the season is officially cancelled and no Big Game is played, this market should resolve as 'No'",
+    "If the league suspends play and starts up again at a later date, and the winner of the Big Game is determined before the Market’s Event Expiration begins, this market is still valid and should be settled accordingly.",
+    "If the league suspends play and starts up again at a later date, and the winner of the Big Game is determined after the Market’s Event Expiration begins, this market should resolve as 'Invalid'."
   ],
   "sports-americanfootball-binary-6": [
     "This market is intended to be about a Single Person, if this is not the case, this market should settle as 'Invalid'.",
