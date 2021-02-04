@@ -191,7 +191,7 @@ export default {
 
     expiryDate () {
       if (this.startDate) {
-        return format(addDays(utcToZonedTime(this.startDate, 'Etc/GMT'), 1), 'yyyy-MM-dd')
+        return format(addDays(utcToZonedTime(this.convertDateTime(this.startDate), 'Etc/GMT'), 1), 'yyyy-MM-dd')
       }
 
       return null
