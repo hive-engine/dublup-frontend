@@ -109,7 +109,7 @@ export const actions = {
       contractAction: 'transfer',
       contractPayload: {
         symbol: rootState.settings.currency,
-        to: rootState.settings.account,
+        to: rootState.settings.creation_fee_account,
         quantity: rootState.settings.creation_fee.toString(),
         memo: JSON.stringify({ action: 'create', payload: state.question })
       }
