@@ -133,12 +133,12 @@ export const actions = {
       const markets = results.map((m) => {
         const totalShares = Object.values(m.possible_outcomes).reduce((acc, cur) => acc + cur, 0)
 
-        const possibleOutcomes = generateOutcomesPtc(m.possible_outcomes, totalShares)
+        const possibleOutcomesPct = generateOutcomesPtc(m.possible_outcomes, totalShares)
 
         return {
           ...m,
           totalShares,
-          possible_outcomes: possibleOutcomes
+          possible_outcomes_pct: possibleOutcomesPct
         }
       })
 
@@ -155,12 +155,12 @@ export const actions = {
 
       const totalShares = Object.values(market.possible_outcomes).reduce((acc, cur) => acc + cur, 0)
 
-      const possibleOutcomes = generateOutcomesPtc(market.possible_outcomes, totalShares)
+      const possibleOutcomesPct = generateOutcomesPtc(market.possible_outcomes, totalShares)
 
       market = {
         ...market,
         totalShares,
-        possible_outcomes: possibleOutcomes
+        possible_outcomes_pct: possibleOutcomesPct
       }
 
       commit('SET_MARKET_DATA', market)
@@ -176,12 +176,12 @@ export const actions = {
       const searchResults = results.map((m) => {
         const totalShares = Object.values(m.possible_outcomes).reduce((acc, cur) => acc + cur, 0)
 
-        const possibleOutcomes = generateOutcomesPtc(m.possible_outcomes, totalShares)
+        const possibleOutcomesPct = generateOutcomesPtc(m.possible_outcomes, totalShares)
 
         return {
           ...m,
           totalShares,
-          possible_outcomes: possibleOutcomes
+          possible_outcomes_pct: possibleOutcomesPct
         }
       })
 

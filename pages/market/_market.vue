@@ -66,6 +66,20 @@
             {{ format(utcToZonedTime(market.expires_at, 'Etc/GMT'), "MMMM dd, yyyy hh:mm aa") }}
             (UTC-0)
           </p>
+
+          <h5 class="mt-3">
+            Outcomes
+          </h5><hr>
+
+          <table class="table table-sm table-borderless">
+            <tr v-for="(poutcome,i) of Object.keys(market.possible_outcomes_pct)" :key="i">
+              <td>{{ poutcome }}</td>
+              <td>{{ market.possible_outcomes[poutcome] }} SHARES</td>
+              <td>{{ market.possible_outcomes_pct[poutcome] }}%</td>
+            </tr>
+          </table>
+
+          Total pool: {{ market.liquidity.amount }} {{ market.liquidity.symbol }}
         </b-col>
 
         <b-col cols="12" sm="6">

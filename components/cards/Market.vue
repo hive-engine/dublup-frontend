@@ -21,11 +21,11 @@
     </nuxt-link>
 
     <ul class="outcomes">
-      <li v-for="(outcome, o) of Object.keys(market.possible_outcomes)" :key="o">
+      <li v-for="(outcome, o) of Object.keys(market.possible_outcomes_pct)" :key="o">
         <div class="outcome-details">
-          <span>{{ outcome }}</span> <span>{{ market.possible_outcomes[outcome] }}%</span>
+          <span>{{ outcome }}</span> <span>{{ market.possible_outcomes_pct[outcome] }}%</span>
         </div>
-        <b-progress :value="market.possible_outcomes[outcome]" :max="100" height="5px" />
+        <b-progress :value="market.possible_outcomes_pct[outcome]" :max="100" height="5px" />
       </li>
     </ul>
   </article>
