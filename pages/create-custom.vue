@@ -578,7 +578,12 @@ export default {
             return this.marketType === 'categorical'
           }),
           minLength: minLength(2),
-          isUniqueOutcome
+          isUniqueOutcome,
+          validOutcome: (value) => {
+            if (value === '') { return true }
+
+            return /^([a-z0-9])[a-z0-9 \- _@]+$/gi.test(value)
+          }
         }
       }
     },
