@@ -25,6 +25,14 @@
       </div>
     </b-card>
 
+    <b-card class="mt-5" title="Outcomes">
+      <ol class="outcomes-list">
+        <li v-for="(outcome, i) of calculatedOutComes" :key="i">
+          {{ outcome }}
+        </li>
+      </ol>
+    </b-card>
+
     <b-card class="mt-5" title="Market close time">
       <p class="text-muted small">
         After the market close time no new shares can be issued but existing shares can be traded on the secondary market.
@@ -138,6 +146,16 @@ export default {
       return [{ value: null, text: 'Month' }, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
     },
 
+    calculatedOutComes () {
+      let outcomes = ['[Number]% or Higher', 'Below [Number]%']
+
+      if (this.percentage) {
+        outcomes = outcomes.map(o => o.replace('[Number]', this.percentage))
+      }
+
+      return outcomes
+    },
+
     computedYears () {
       const currentYear = new Date().getFullYear()
 
@@ -218,7 +236,8 @@ export default {
           year: this.year,
           percentage: this.percentage,
           closeDate: this.closeDateTime.toISOString(),
-          expiryDate: this.expiryDateTime.toISOString()
+          expiryDate: this.expiryDateTime.toISOString(),
+          outcomes: this.calculatedOutComes
         }
 
         this.$emit('validated', data, isValid)
