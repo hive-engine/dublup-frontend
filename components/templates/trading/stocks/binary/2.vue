@@ -71,7 +71,9 @@
               month: 'short',
               day: 'numeric',
             }"
-            :disabled="true"
+            :min="closeDateMin"
+            :max="closeDateMax"
+            :state="$v.closeDate.$dirty ? !$v.closeDate.$error : null"
           />
         </b-col>
         <b-col sm="4" md="3" class="mb-3">
@@ -184,6 +186,7 @@ export default {
       ],
       price: '',
       startDate: null,
+      closeDate: null,
       endDate: null,
       source: null,
       sourceOptions: {
@@ -204,6 +207,10 @@ export default {
       }
     },
 
+    today () {
+      return utcToZonedTime(new Date(), 'ETC/GMT')
+    },
+
     expiryDate () {
       if (this.endDate) {
         return format(addDays(utcToZonedTime(this.convertDateTime(this.endDate), 'Etc/GMT'), 1), 'yyyy-MM-dd')
@@ -221,11 +228,11 @@ export default {
     },
 
     startDateMin () {
-      return format(addDays(new Date(), 1), 'yyyy-MM-dd')
+      return format(addDays(this.today, 1), 'yyyy-MM-dd')
     },
 
     startDateMax () {
-      return format(addMonths(new Date(), 12), 'yyyy-MM-dd')
+      return format(addMonths(this.today, 12), 'yyyy-MM-dd')
     },
 
     endDateMin () {
@@ -236,7 +243,15 @@ export default {
       return format(addMonths(new Date(this.startDate), 12), 'yyyy-MM-dd')
     },
 
-    closeDate () {
+    closeDateMin () {
+      if (this.startDate) {
+        return format(addDays(utcToZonedTime(this.convertDateTime(format(this.today, 'yyyy-MM-dd')), 'Etc/GMT'), 1), 'yyyy-MM-dd')
+      }
+
+      return null
+    },
+
+    closeDateMax () {
       if (this.startDate) {
         return format(utcToZonedTime(this.convertDateTime(this.startDate), 'Etc/GMT'), 'yyyy-MM-dd')
       }
@@ -306,6 +321,19 @@ export default {
       required
     },
 
+    closeDate: {
+      required,
+      minValue (v) {
+        if (v === '' || !this.startDate) {
+          return true
+        }
+
+        const today = new Date(format(utcToZonedTime(this.convertDateTime(v), 'Etc/GMT'), 'yyyy-MM-dd'))
+
+        return today >= new Date(this.closeDateMin) && today <= new Date(this.closeDateMax)
+      }
+    },
+
     endDate: {
       required,
       mustBeEqualOrHigher (value) {
@@ -321,7 +349,7 @@ export default {
       required
     },
 
-    form: ['pair', 'price', 'startDate', 'endDate', 'source']
+    form: ['pair', 'price', 'startDate', 'closeDate', 'endDate', 'source']
   }
 }
 </script>
