@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <b-modal id="loginModal" title="Login" hide-footer centered>
+    <b-modal id="loginModal" title="Login to Dublup" hide-footer centered>
       <template #default>
         <div class="pt-md-3 pb-md-3 pr-md-5 pl-md-5">
           <div class="form-group">
@@ -12,11 +12,21 @@
           </div>
 
           <div class="text-center">
-            <b-button variant="success" block @click="logMeIn">
-              Login with Keychain
-            </b-button>
+            <div class="login_buttons">
+              <b-button variant="success" block @click="logMeIn">
+                Login with HIVE Keychain
+              </b-button>
 
+              <b-button
+                variant="secondary"
+                block
+                @click.prevent="$bvModal.show('smartLock')"
+              >
+                Login with SmartLock
+              </b-button>
+            </div>
             <template v-if="!isKeychain">
+              <hr>
               <p class="small mt-3 mb-0">
                 Download Hive Keychain for
               </p>
@@ -30,15 +40,6 @@
                 </li>
               </ul>
             </template>
-            <hr>
-
-            <b-button
-              variant="secondary"
-              block
-              @click.prevent="$bvModal.show('smartLock')"
-            >
-              SmartLock
-            </b-button>
           </div>
         </div>
       </template>
