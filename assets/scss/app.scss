@@ -276,6 +276,14 @@ a {
   }
 }
 
+.navbar {
+  .navbar-badge {
+    position: absolute;
+    padding: 5px;
+    right: 0px;
+  }
+}
+
 .badge {
   &.market-open {
     background-color: $blue;
@@ -472,10 +480,8 @@ table {
 }
 .navbar {
   padding: 0.2rem 1rem;
-  .nav-link {
-    margin-left: 2rem;
-  }
 }
+
 .navbar-search-form {
   .form-control,
   .form-control::placeholder {
@@ -495,9 +501,11 @@ table {
     padding-top: 0px;
   }
 }
+
 .icon-search {
   width: 21px !important;
 }
+
 .navbar-search-form {
   .input-group {
     margin-top: 3px;
@@ -506,9 +514,11 @@ table {
     margin-left: -43px;
   }
 }
+
 .navbar-dark .navbar-nav .nav-link {
   color: rgb(255, 255, 255);
   text-transform: uppercase;
+
   .icon-user {
     float: right;
     margin-left: 16px;
@@ -518,6 +528,7 @@ table {
     background-repeat: no-repeat;
   }
 }
+
 .custom-select,
 .inline-input,
 .b-form-datepicker,
@@ -1054,9 +1065,6 @@ textarea::placeholder {
 }
 
 @media only screen and (max-width: 1200px) {
-  .navbar .nav-link {
-    margin-left: 1rem;
-  }
   .promo-img-full {
     .promo-img-logo {
       width: 227px;

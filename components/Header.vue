@@ -37,7 +37,7 @@
               </b-nav-item>
 
               <b-nav-item v-if="isOracle" :to="{ name: 'report' }">
-                <v-icon class="d-lg-none d-xl-inline" name="code" />&nbsp; Settle Markets
+                <v-icon class="d-lg-none d-xl-inline" name="code" />&nbsp; Report
               </b-nav-item>
 
               <b-nav-item :to="{ name: 'user-dashboard', params: { user: username } }">
