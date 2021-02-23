@@ -1,33 +1,35 @@
 <template>
-  <div class="container">
-    <h3>Dashboard</h3><hr>
+  <div class="dashboard">
+    <div class="container">
+      <h3>Dashboard</h3><hr>
 
-    <b-card v-if="!isOracle" title="Become an Oracle">
-      <p>Anyone having {{ settings.oracle_stake_requirement }} {{ settings.currency }} can register for being an oracle.</p>
-      <p>Your current stake: {{ balance.stake }} {{ settings.currency }}</p>
+      <b-card v-if="!isOracle" title="Become an Oracle">
+        <p>Anyone having {{ settings.oracle_stake_requirement }} {{ settings.currency }} can register for being an oracle.</p>
+        <p>Your current stake: {{ balance.stake }} {{ settings.currency }}</p>
 
-      <b-button v-if="!isOracle && !oracleApplied" :disabled="balance.stake < settings.oracle_stake_requirement" variant="primary" @click="requestRegisterOracle">
-        Register
-      </b-button>
+        <b-button v-if="!isOracle && !oracleApplied" :disabled="balance.stake < settings.oracle_stake_requirement" variant="primary" @click="requestRegisterOracle">
+          Register
+        </b-button>
 
-      <p v-else-if="oracleApplied" class="text-info">
-        You have already applied to be an oracle.
-      </p>
-      <p v-else class="text-success">
-        You are already a registered Oracle.
-      </p>
-    </b-card>
+        <p v-else-if="oracleApplied" class="text-info">
+          You have already applied to be an oracle.
+        </p>
+        <p v-else class="text-success">
+          You are already a registered Oracle.
+        </p>
+      </b-card>
 
-    <b-card v-else title="You are an Oracle!">
-      <h6>Oracle Reputation: {{ profile.reputation }}</h6>
+      <b-card v-else title="You are an Oracle!">
+        <h6>Oracle Reputation: {{ profile.reputation }}</h6>
 
-      <p class="text-info">
-        If this reputation goes below 0, your market outcome submission won't be counted.
-      </p>
-      <p class="text-muted">
-        Please be extremely careful while settling markets. Wrong submission reduces your reputation by {{ settings.incorrect_reporting_penalty }}, correct outcome increase it by {{ settings.correct_reporting_reward }}.
-      </p>
-    </b-card>
+        <p class="text-info">
+          If this reputation goes below 0, your market outcome submission won't be counted.
+        </p>
+        <p class="text-muted">
+          Please be extremely careful while settling markets. Wrong submission reduces your reputation by {{ settings.incorrect_reporting_penalty }}, correct outcome increase it by {{ settings.correct_reporting_reward }}.
+        </p>
+      </b-card>
+    </div>
   </div>
 </template>
 

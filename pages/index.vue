@@ -1,5 +1,21 @@
 <template>
   <div class="home">
+    <div class="promo-img-full">
+      <div class="promo-img-logo">
+        <img src="/dublup_final_logo_whitefont-600.png&quot;" height="600" width="600" alt="Dublup">
+      </div>
+      <div class="promo-img-text">
+        <div class="line1">
+          <h1>Win Cryptocurrency</h1>
+        </div>
+        <div class="line2">
+          By Correctly Predicting Future Events!
+        </div>
+        <div class="line3">
+          Powered by the <a href="https://hiveonboard.com/" target="_blank">HIVE Blockchain</a> <img src="/hive-logo.png" width="200" height="" class="hive-logo">
+        </div>
+      </div>
+    </div>
     <template v-if="markets.length > 0">
       <b-row align-h="end">
         <b-col cols="6" md="4" lg="3">
@@ -9,8 +25,9 @@
 
       <div class="markets mt-4">
         <market-card v-for="(market, i) of markets" :key="i" :market="market" />
-
-        <b-pagination v-model="currentPage" class="mt-5" align="center" :per-page="perPage" :total-rows="pagination.total" />
+        <div class="pagination-container">
+          <b-pagination v-model="currentPage" class="mt-5" align="center" :per-page="perPage" :total-rows="pagination.total" />
+        </div>
       </div>
     </template>
 

@@ -1,202 +1,207 @@
 <template>
-  <form-wizard
-    ref="creationWizard"
-    step-size="xs"
-    @on-complete="createMarket"
-    @on-change="tabOnChange"
-  >
-    <div slot="title" />
+  <div class="create-market">
+    <div class="container">
+      <h3>Create a Market</h3><hr>
+      <form-wizard
+        ref="creationWizard"
+        step-size="xs"
+        @on-complete="createMarket"
+        @on-change="tabOnChange"
+      >
+        <div slot="title" />
 
-    <wizard-step
-      slot="step"
-      slot-scope="props"
-      :tab="props.tab"
-      :transition="props.transition"
-      :index="props.index"
-    />
+        <wizard-step
+          slot="step"
+          slot-scope="props"
+          :tab="props.tab"
+          :transition="props.transition"
+          :index="props.index"
+        />
 
-    <tab-content title="Category" icon="" :lazy="true">
-      <b-card title="Use a market template">
-        <b-form-text>Templates simplify the creation of new markets and reduce errors in the market making process.</b-form-text>
+        <tab-content title="Category" icon="" :lazy="true">
+          <b-card title="Use a market template">
+            <b-form-text>Templates simplify the creation of new markets and reduce errors in the market making process.</b-form-text>
 
-        <b-row class="mt-3">
-          <b-col
-            v-for="(c, ci) of categories"
-            :key="ci"
-            class="text-sm-center text-md-left mt-3 mb-3"
-            cols="12"
-            sm="6"
-            md="4"
-            lg="3"
-          >
-            <radio-button
-              :id="c"
-              :key="ci"
-              v-model="category"
-              type="radio"
-              name="category"
-              :button-value="c"
-              :icon="getCategoyIcon(c)"
-              :label="c"
-            />
-          </b-col>
-        </b-row>
-      </b-card>
+            <b-row class="mt-3">
+              <b-col
+                v-for="(c, ci) of categories"
+                :key="ci"
+                class="text-sm-center text-md-left mt-3 mb-3"
+                cols="12"
+                sm="6"
+                md="4"
+                lg="3"
+              >
+                <radio-button
+                  :id="c"
+                  :key="ci"
+                  v-model="category"
+                  type="radio"
+                  name="category"
+                  :button-value="c"
+                  :icon="getCategoyIcon(c)"
+                  :label="c"
+                />
+              </b-col>
+            </b-row>
+          </b-card>
 
-      <b-card class="mt-5" title="Start from scratch">
-        <b-form-text>Create a completely custom market, only recommended for advanced users.</b-form-text>
+          <b-card class="mt-5" title="Start from scratch">
+            <b-form-text>Create a completely custom market, only recommended for advanced users.</b-form-text>
 
-        <b-button class="mt-3" variant="outline-danger" :to="{name:'create-custom'}">
-          Create a custom market
-        </b-button>
-      </b-card>
-    </tab-content>
+            <b-button class="mt-3" variant="outline-danger" :to="{name:'create-custom'}">
+              Create a custom market
+            </b-button>
+          </b-card>
+        </tab-content>
 
-    <tab-content title="Subcategory" icon="" :lazy="true">
-      <b-card>
-        <b-row>
-          <b-col
-            v-for="(c, ci) of subCategories"
-            :key="ci"
-            class="text-sm-center text-md-left mt-3 mb-3"
-            cols="12"
-            sm="6"
-            md="4"
-            lg="3"
-          >
-            <radio-button
-              :id="c"
-              :key="ci"
-              v-model="subCategory"
-              type="radio"
-              name="subcategory"
-              :button-value="c"
-              :icon="getSubCategoyIcon(c)"
-              :label="c"
-            />
-          </b-col>
-        </b-row>
-      </b-card>
-    </tab-content>
+        <tab-content title="Subcategory" icon="" :lazy="true">
+          <b-card>
+            <b-row>
+              <b-col
+                v-for="(c, ci) of subCategories"
+                :key="ci"
+                class="text-sm-center text-md-left mt-3 mb-3"
+                cols="12"
+                sm="6"
+                md="4"
+                lg="3"
+              >
+                <radio-button
+                  :id="c"
+                  :key="ci"
+                  v-model="subCategory"
+                  type="radio"
+                  name="subcategory"
+                  :button-value="c"
+                  :icon="getSubCategoyIcon(c)"
+                  :label="c"
+                />
+              </b-col>
+            </b-row>
+          </b-card>
+        </tab-content>
 
-    <tab-content title="Market Type" icon="" :lazy="true">
-      <b-card>
-        <b-row>
-          <b-col
-            v-for="(t, ti) of marketTypeData"
-            :key="ti"
-            class="text-sm-center text-md-left mt-3 mb-3"
-            cols="12"
-            sm="6"
-            md="4"
-            lg="3"
-          >
-            <radio-button
-              v-if="t === 'binary'"
-              id="binary"
-              v-model="marketType"
-              type="radio"
-              name="marketType"
-              button-value="binary"
-              icon="terminal"
-              label="Yes/No"
-              description="There are two possible outcomes: Yes or No"
-            />
+        <tab-content title="Market Type" icon="" :lazy="true">
+          <b-card>
+            <b-row>
+              <b-col
+                v-for="(t, ti) of marketTypeData"
+                :key="ti"
+                class="text-sm-center text-md-left mt-3 mb-3"
+                cols="12"
+                sm="6"
+                md="4"
+                lg="3"
+              >
+                <radio-button
+                  v-if="t === 'binary'"
+                  id="binary"
+                  v-model="marketType"
+                  type="radio"
+                  name="marketType"
+                  button-value="binary"
+                  icon="terminal"
+                  label="Yes/No"
+                  description="There are two possible outcomes: Yes or No"
+                />
 
-            <radio-button
-              v-if="t === 'categorical'"
-              id="categorical"
-              v-model="marketType"
-              type="radio"
-              name="marketType"
-              button-value="categorical"
-              icon="list"
-              label="Multiple Choice"
-              description="There are multiple possible outcomes"
-            />
-          </b-col>
-        </b-row>
-      </b-card>
-    </tab-content>
+                <radio-button
+                  v-if="t === 'categorical'"
+                  id="categorical"
+                  v-model="marketType"
+                  type="radio"
+                  name="marketType"
+                  button-value="categorical"
+                  icon="list"
+                  label="Multiple Choice"
+                  description="There are multiple possible outcomes"
+                />
+              </b-col>
+            </b-row>
+          </b-card>
+        </tab-content>
 
-    <tab-content title="Template" icon="" :lazy="true">
-      <b-card>
-        <ul v-if="questionsData.length > 0" class="list-unstyled mb-0">
-          <li v-for="(q, i) of questionsData" :key="i" :class="{ 'mb-3': i < questionsData.length - 1}">
-            <radio-question
-              :id="q.id"
-              v-model="question"
-              name="question"
-              :button-value="q.id"
-              :question="q.question"
-              :example="q.example"
-            />
-          </li>
-        </ul>
+        <tab-content title="Template" icon="" :lazy="true">
+          <b-card>
+            <ul v-if="questionsData.length > 0" class="list-unstyled mb-0">
+              <li v-for="(q, i) of questionsData" :key="i" :class="{ 'mb-3': i < questionsData.length - 1}">
+                <radio-question
+                  :id="q.id"
+                  v-model="question"
+                  name="question"
+                  :button-value="q.id"
+                  :question="q.question"
+                  :example="q.example"
+                />
+              </li>
+            </ul>
 
-        <div v-else class="text-center mt-5 mb-5 h6">
-          <p> No templates are found for this market type!</p>
-          <p>
-            Please consider creating a <nuxt-link :to="{name:'create-custom'}">
-              custom market
-            </nuxt-link>.
-          </p>
-        </div>
-      </b-card>
-    </tab-content>
+            <div v-else class="text-center mt-5 mb-5 h6">
+              <p> No templates are found for this market type!</p>
+              <p>
+                Please consider creating a <nuxt-link :to="{name:'create-custom'}">
+                  custom market
+                </nuxt-link>.
+              </p>
+            </div>
+          </b-card>
+        </tab-content>
 
-    <tab-content
-      title="Event Details"
-      icon=""
-      :lazy="true"
-      :before-change="() => validateForm(question)"
-    >
-      <component
-        :is="questionComponent"
-        :ref="question"
-        :template="question"
-        @validated="formValidated"
-      />
-    </tab-content>
-
-    <tab-content title="Preview" icon="" :lazy="true">
-      <market-preview />
-    </tab-content>
-
-    <template slot="footer" slot-scope="props">
-      <div class="wizard-footer-left">
-        <wizard-button
-          v-if="props.activeTabIndex > 0"
-          :style="props.fillButtonStyle"
-          @click.native="props.prevTab()"
+        <tab-content
+          title="Event Details"
+          icon=""
+          :lazy="true"
+          :before-change="() => validateForm(question)"
         >
-          Back
-        </wizard-button>
-      </div>
+          <component
+            :is="questionComponent"
+            :ref="question"
+            :template="question"
+            @validated="formValidated"
+          />
+        </tab-content>
 
-      <div class="wizard-footer-right">
-        <wizard-button
-          v-if="!props.isLastStep && props.activeTabIndex > 0"
-          class="wizard-footer-right"
-          :style="props.fillButtonStyle"
-          :disabled="disableNext(props.activeTabIndex)"
-          @click.native="props.nextTab()"
-        >
-          Next
-        </wizard-button>
+        <tab-content title="Preview" icon="" :lazy="true">
+          <market-preview />
+        </tab-content>
 
-        <wizard-button
-          v-if="props.isLastStep"
-          class="wizard-footer-right finish-button"
-          :style="props.fillButtonStyle"
-          :disabled="balance.balance < settings.creation_fee"
-          @click.native="props.nextTab()"
-        >
-          Create
-        </wizard-button>
-      </div>
-    </template>
-  </form-wizard>
+        <template slot="footer" slot-scope="props">
+          <div class="wizard-footer-left">
+            <wizard-button
+              v-if="props.activeTabIndex > 0"
+              :style="props.fillButtonStyle"
+              @click.native="props.prevTab()"
+            >
+              Back
+            </wizard-button>
+          </div>
+
+          <div class="wizard-footer-right">
+            <wizard-button
+              v-if="!props.isLastStep && props.activeTabIndex > 0"
+              class="wizard-footer-right"
+              :style="props.fillButtonStyle"
+              :disabled="disableNext(props.activeTabIndex)"
+              @click.native="props.nextTab()"
+            >
+              Next
+            </wizard-button>
+
+            <wizard-button
+              v-if="props.isLastStep"
+              class="wizard-footer-right finish-button"
+              :style="props.fillButtonStyle"
+              :disabled="balance.balance < settings.creation_fee"
+              @click.native="props.nextTab()"
+            >
+              Create
+            </wizard-button>
+          </div>
+        </template>
+      </form-wizard>
+    </div>
+  </div>
 </template>
 
 <script>
