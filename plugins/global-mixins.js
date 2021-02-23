@@ -20,7 +20,7 @@ if (!Vue.__myGlobalMixin__) {
           container: null,
           canCancel: false,
           loader: 'dots',
-          color: '#e10635',
+          color: '#90c2f9',
           width: 100,
           height: 100,
           opacity: 0.9

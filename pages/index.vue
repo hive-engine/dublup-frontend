@@ -2,7 +2,7 @@
   <div class="home">
     <div class="promo-img-full">
       <div class="promo-img-logo">
-        <img src="/dublup_final_logo_whitefont-600.png&quot;" height="600" width="600" alt="Dublup">
+        <img src="/dublup_final_logo_whitefont-600.png" height="600" width="600" alt="Dublup">
       </div>
       <div class="promo-img-text">
         <div class="line1">
@@ -12,7 +12,7 @@
           By Correctly Predicting Future Events!
         </div>
         <div class="line3">
-          Powered by the <a href="https://hiveonboard.com/" target="_blank">HIVE Blockchain</a> <img src="/hive-logo.png" width="200" height="" class="hive-logo">
+          Powered by the <a href="https://hiveonboard.com/?ref=dublup" target="_blank">HIVE Blockchain</a> <img src="/hive-logo.png" width="200" height="" class="hive-logo">
         </div>
       </div>
     </div>
