@@ -45,7 +45,8 @@ export default {
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
     // https://go.nuxtjs.dev/eslint
-    ['@nuxtjs/eslint-module', { fix: true }]
+    ['@nuxtjs/eslint-module', { fix: true }],
+    '@nuxtjs/pwa'
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -129,5 +130,18 @@ export default {
     CHAT_WS: process.env.CHAT_WS,
     CHAT_CHANNELS: process.env.CHAT_CHANNELS,
     EXPLORER_URL: 'https://he.dtools.dev'
+  },
+
+  pwa: {
+    meta: {
+      name: 'dublup.io',
+      author: 'dublup.io'
+    },
+
+    manifest: {
+      name: 'dublup.io',
+      short_name: 'dublup',
+      theme_color: '#2d3748'
+    }
   }
 }

@@ -1,5 +1,6 @@
 {
   "name": "dublup-frontend",
+  "description": "Prediction market built on top of Hive-Engine. It allows you to forecast events and be rewarded for predicting them correctly.",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -38,6 +39,7 @@
   "devDependencies": {
     "@nuxtjs/eslint-config": "^5.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
+    "@nuxtjs/pwa": "^3.3.5",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.17.0",
     "eslint-plugin-nuxt": "^2.0.0",
