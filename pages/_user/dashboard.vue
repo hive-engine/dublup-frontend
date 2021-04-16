@@ -1,66 +1,64 @@
 <template>
   <div class="dashboard">
-    <div class="container">
-      <h3>Dashboard</h3><hr>
+    <h3>Dashboard</h3><hr>
 
-      <b-card v-if="!isOracle" title="Become an Oracle">
-        <p>Anyone having {{ settings.oracle_stake_requirement }} {{ settings.currency }} can register for being an oracle.</p>
-        <p>Your current stake: {{ balance.stake }} {{ settings.currency }}</p>
+    <b-card v-if="!isOracle" title="Become an Oracle">
+      <p>Anyone having {{ settings.oracle_stake_requirement }} {{ settings.currency }} can register for being an oracle.</p>
+      <p>Your current stake: {{ balance.stake }} {{ settings.currency }}</p>
 
-        <b-button v-if="!isOracle && !oracleApplied" :disabled="balance.stake < settings.oracle_stake_requirement" variant="primary" @click.prevent="requestRegisterOracle">
-          Register
-        </b-button>
+      <b-button v-if="!isOracle && !oracleApplied" :disabled="balance.stake < settings.oracle_stake_requirement" variant="primary" @click.prevent="requestRegisterOracle">
+        Register
+      </b-button>
 
-        <p v-else-if="oracleApplied" class="text-info">
-          You have already applied to be an oracle.
+      <p v-else-if="oracleApplied" class="text-info">
+        You have already applied to be an oracle.
+      </p>
+      <p v-else class="text-success">
+        You are already a registered Oracle.
+      </p>
+    </b-card>
+
+    <b-card v-else title="You are an Oracle!">
+      <h6>Oracle Reputation: {{ profile.reputation }}</h6>
+      <h6>Consecutive Misses: {{ profile.oracle.consecutive_misses }}</h6>
+
+      <p class="text-info">
+        If this reputation goes below 0, your market outcome submission won't be counted.
+      </p>
+      <p class="text-muted">
+        Please be extremely careful while settling markets. Wrong submission reduces your reputation by {{ settings.incorrect_reporting_penalty }}, correct outcome increase it by {{ settings.correct_reporting_reward }}. If you do not participate in {{ settings.max_consecutive_misses }} consecutive market resolutions, your orcale will be temporary disabled. You can re-enable at any time without any penalty.
+      </p>
+    </b-card>
+
+    <b-card v-if="isOracle" title="Oracle Settings" class="mt-5">
+      <template v-if="requestReceived">
+        <p class="text-sccess">
+          We have received your request and now processing.
         </p>
-        <p v-else class="text-success">
-          You are already a registered Oracle.
-        </p>
-      </b-card>
+      </template>
 
-      <b-card v-else title="You are an Oracle!">
-        <h6>Oracle Reputation: {{ profile.reputation }}</h6>
-        <h6>Consecutive Misses: {{ profile.oracle.consecutive_misses }}</h6>
-
-        <p class="text-info">
-          If this reputation goes below 0, your market outcome submission won't be counted.
-        </p>
-        <p class="text-muted">
-          Please be extremely careful while settling markets. Wrong submission reduces your reputation by {{ settings.incorrect_reporting_penalty }}, correct outcome increase it by {{ settings.correct_reporting_reward }}. If you do not participate in {{ settings.max_consecutive_misses }} consecutive market resolutions, your orcale will be temporary disabled. You can re-enable at any time without any penalty.
-        </p>
-      </b-card>
-
-      <b-card v-if="isOracle" title="Oracle Settings" class="mt-5">
-        <template v-if="requestReceived">
-          <p class="text-sccess">
-            We have received your request and now processing.
+      <template v-else>
+        <template v-if="profile.oracle.active">
+          <p class="text-success h4">
+            You are an active oracle.
           </p>
+
+          <b-button variant="warning" class="mt-3" @click.prevent="requestActivateOracle(false)">
+            Temporary Disable Oracle
+          </b-button>
         </template>
 
         <template v-else>
-          <template v-if="profile.oracle.active">
-            <p class="text-success h4">
-              You are an active oracle.
-            </p>
+          <p class="text-warning h4">
+            You are not an active oracle.
+          </p>
 
-            <b-button variant="warning" class="mt-3" @click.prevent="requestActivateOracle(false)">
-              Temporary Disable Oracle
-            </b-button>
-          </template>
-
-          <template v-else>
-            <p class="text-warning h4">
-              You are not an active oracle.
-            </p>
-
-            <b-button variant="success" class="mt-3" @click.prevent="requestActivateOracle(true)">
-              Enable Oracle
-            </b-button>
-          </template>
+          <b-button variant="success" class="mt-3" @click.prevent="requestActivateOracle(true)">
+            Enable Oracle
+          </b-button>
         </template>
-      </b-card>
-    </div>
+      </template>
+    </b-card>
   </div>
 </template>
 

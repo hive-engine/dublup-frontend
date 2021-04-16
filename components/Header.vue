@@ -86,6 +86,9 @@
                 <b-dropdown-item v-if="isAdmin" :to="{name:'admin'}">
                   Admin Dashboard
                 </b-dropdown-item>
+                <b-dropdown-item :to="{name:'user-wallet', params:{user: username}}">
+                  Wallet
+                </b-dropdown-item>
                 <b-dropdown-item :to="{name:'user-markets', params:{user: username}}">
                   Your Markets
                 </b-dropdown-item>

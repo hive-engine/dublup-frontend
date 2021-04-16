@@ -1,347 +1,345 @@
 <template>
   <div class="messaging">
-    <div class="container">
-      <template v-if="!dataLoaded">
-        <Loading />
-      </template>
+    <template v-if="!dataLoaded">
+      <Loading />
+    </template>
 
-      <template v-else>
-        <b-row no-gutters align-v="stretch">
-          <b-col lg="4" class="mt-3">
-            <div class="column-header justify-content-center">
-              <b-button
-                size="sm"
-                variant="primary"
-                title="New Conversation"
-                @click="$bvModal.show('createConversation')"
+    <template v-else>
+      <b-row no-gutters align-v="stretch">
+        <b-col lg="4" class="mt-3">
+          <div class="column-header justify-content-center">
+            <b-button
+              size="sm"
+              variant="primary"
+              title="New Conversation"
+              @click="$bvModal.show('createConversation')"
+            >
+              <v-icon name="plus" /> Conversation
+            </b-button>&nbsp;
+
+            <b-button
+              size="sm"
+              variant="primary"
+              title="Friends"
+              @click="$bvModal.show('manageFriendship')"
+            >
+              <v-icon name="users" /> Friends
+              <b-badge v-if="friend_requests.length > 0" variant="warning">
+                {{ friend_requests.length }}
+              </b-badge>
+            </b-button>
+          </div>
+
+          <div class="sidebar">
+            <template v-if="channels.length > 0">
+              <div
+                v-for="conv of channels"
+                :key="conv.id"
+                class="conversation"
+                :class="{ active: conversation_id === conv.id }"
+                @click.prevent="loadMessages(conv)"
               >
-                <v-icon name="plus" /> Conversation
-              </b-button>&nbsp;
+                <b-row>
+                  <b-col
+                    cols="3"
+                    lg="3"
+                    xl="3"
+                    align-self="center"
+                    class="p-0 text-center d-md-none d-lg-block"
+                  >
+                    <b-avatar variant="primary" crossorigin size="3rem">
+                      <v-icon name="users" />
+                    </b-avatar>
+                  </b-col>
 
-              <b-button
-                size="sm"
-                variant="primary"
-                title="Friends"
-                @click="$bvModal.show('manageFriendship')"
+                  <b-col
+                    cols="8"
+                    md="10"
+                    lg="7"
+                    align-self="center"
+                    class="pr-0 p-lg-0 username"
+                  >
+                    {{ conv.name }}
+                  </b-col>
+
+                  <b-col
+                    cols="1"
+                    lg="2"
+                    align-self="center"
+                    class="pl-0 text-right"
+                  >
+                    <b-badge v-if="conv.unread > 0" variant="danger">
+                      {{ conv.unread }}
+                    </b-badge>
+                  </b-col>
+                </b-row>
+              </div>
+
+              <hr>
+            </template>
+
+            <template v-if="conversations.length > 0">
+              <div
+                v-for="conv of conversations"
+                :key="conv.id"
+                class="conversation"
+                :class="{ active: conversation_id === conv.id }"
+                @click.prevent="loadMessages(conv)"
               >
-                <v-icon name="users" /> Friends
-                <b-badge v-if="friend_requests.length > 0" variant="warning">
-                  {{ friend_requests.length }}
-                </b-badge>
-              </b-button>
-            </div>
+                <b-row>
+                  <b-col
+                    cols="3"
+                    lg="3"
+                    xl="3"
+                    align-self="center"
+                    class="p-0 text-center d-md-none d-lg-block"
+                  >
+                    <b-avatar
+                      v-if="conv.type === 'dm'"
+                      variant="light"
+                      crossorigin
+                      :src="`https://images.hive.blog/u/${conv.members[0]}/avatar`"
+                      class="border"
+                      size="3rem"
+                    />
+                    <b-avatar
+                      v-else
+                      variant="dark"
+                      crossorigin
+                      class="border"
+                      size="3rem"
+                    >
+                      <v-icon name="users" />
+                    </b-avatar>
+                  </b-col>
 
-            <div class="sidebar">
-              <template v-if="channels.length > 0">
-                <div
-                  v-for="conv of channels"
-                  :key="conv.id"
-                  class="conversation"
-                  :class="{ active: conversation_id === conv.id }"
-                  @click.prevent="loadMessages(conv)"
+                  <b-col
+                    cols="8"
+                    md="10"
+                    lg="7"
+                    align-self="center"
+                    class="pr-0 p-lg-0 username"
+                  >
+                    {{ conv.name }}
+                  </b-col>
+
+                  <b-col
+                    cols="1"
+                    lg="2"
+                    align-self="center"
+                    class="pl-0 text-right"
+                  >
+                    <b-badge v-if="conv.unread > 0" variant="danger">
+                      {{ conv.unread }}
+                    </b-badge>
+                  </b-col>
+                </b-row>
+              </div>
+            </template>
+
+            <template v-else>
+              <div class="text-center align-center">
+                No chats found
+              </div>
+            </template>
+          </div>
+        </b-col>
+
+        <b-col lg="8" class="mt-3">
+          <div class="column-header">
+            <b-row class="w-100" align-v="center">
+              <b-col cols="11">
+                <p v-if="conversation_id" class="m-0 h6 conversation-name">
+                  <template v-if="type === 'dm'">
+                    <v-icon name="user" />
+                    &nbsp; Conversation with @{{ conversation_name }}
+                  </template>
+                  <template v-else-if="type === 'group' || type === 'channel'">
+                    <v-icon name="users" />
+                    &nbsp; {{ conversation_name }}
+                  </template>
+                </p>
+              </b-col>
+              <b-col class="text-right" cols="1">
+                <b-dropdown
+                  size="sm"
+                  variant="link"
+                  right
+                  toggle-class="text-decoration-none"
+                  no-caret
                 >
-                  <b-row>
-                    <b-col
-                      cols="3"
-                      lg="3"
-                      xl="3"
-                      align-self="center"
-                      class="p-0 text-center d-md-none d-lg-block"
-                    >
-                      <b-avatar variant="primary" crossorigin size="3rem">
-                        <v-icon name="users" />
-                      </b-avatar>
-                    </b-col>
+                  <template #button-content>
+                    <v-icon name="more-vertical" />
+                  </template>
+                  <b-dropdown-item-button
+                    v-if="type === 'dm'"
+                    @click.prevent="
+                      requestFollow({ username: to, follow: !isFollowing(to) })
+                    "
+                  >
+                    {{ isFollowing ? "Unfollow" : "Follow" }}
+                  </b-dropdown-item-button>
+                  <b-dropdown-item-button
+                    v-if="type === 'dm' && !isUserBlocked(to)"
+                    @click.prevent="blockUser"
+                  >
+                    Block
+                  </b-dropdown-item-button>
+                  <b-dropdown-item-button
+                    v-if="type === 'dm' && isUserBlocked(to)"
+                    @click.prevent="unblockUser"
+                  >
+                    Unblock
+                  </b-dropdown-item-button>
+                  <b-dropdown-item-button
+                    v-if="type === 'group' || type === 'channel'"
+                    @click.prevent="leaveConversation"
+                  >
+                    Leave
+                  </b-dropdown-item-button>
+                  <b-dropdown-item-button
+                    v-if="(type === 'group' || type === 'channel') && isCreator"
+                    @click.prevent="$bvModal.show('renameConversation')"
+                  >
+                    Rename
+                  </b-dropdown-item-button>
+                  <b-dropdown-item-button
+                    v-if="type === 'group' || type === 'channel'"
+                    @click.prevent="$bvModal.show('manageMembers')"
+                  >
+                    Members
+                  </b-dropdown-item-button>
+                </b-dropdown>
+              </b-col>
+            </b-row>
+          </div>
 
-                    <b-col
-                      cols="8"
-                      md="10"
-                      lg="7"
-                      align-self="center"
-                      class="pr-0 p-lg-0 username"
-                    >
-                      {{ conv.name }}
-                    </b-col>
-
-                    <b-col
-                      cols="1"
-                      lg="2"
-                      align-self="center"
-                      class="pl-0 text-right"
-                    >
-                      <b-badge v-if="conv.unread > 0" variant="danger">
-                        {{ conv.unread }}
-                      </b-badge>
-                    </b-col>
-                  </b-row>
-                </div>
-
-                <hr>
-              </template>
-
-              <template v-if="conversations.length > 0">
+          <div class="messages">
+            <div
+              v-chat-scroll="{ always: false, smooth: true }"
+              class="messages-container"
+              @v-chat-scroll-top-reached="loadMoreMessages"
+              @scroll="onScroll"
+            >
+              <template v-if="groupedMessages.length > 0">
                 <div
-                  v-for="conv of conversations"
-                  :key="conv.id"
-                  class="conversation"
-                  :class="{ active: conversation_id === conv.id }"
-                  @click.prevent="loadMessages(conv)"
+                  v-for="message of groupedMessages"
+                  :key="message.message_id"
+                  class="message"
+                  :class="
+                    message.from === username
+                      ? 'sent-message'
+                      : 'received-message'
+                  "
                 >
-                  <b-row>
-                    <b-col
-                      cols="3"
-                      lg="3"
-                      xl="3"
-                      align-self="center"
-                      class="p-0 text-center d-md-none d-lg-block"
+                  <div
+                    class="content text-light"
+                    :class="
+                      message.from === username ? 'bg-primary' : 'bg-secondary'
+                    "
+                    v-html="processMessage(message.content)"
+                  />
+                  <div class="text-muted small pl-1">
+                    {{
+                      message.from === username ? "You" : message.from
+                    }}&nbsp;&middot;
+                    <timeago
+                      :datetime="new Date(message.timestamp)"
+                      :title="new Date(message.timestamp).toLocaleString()"
+                      :auto-update="30"
+                    />
+                    <template
+                      v-if="
+                        message.from === username ||
+                          ((conversation.type === 'group' ||
+                            conversation.type === 'channel') &&
+                            (isCreator || isModerator))
+                      "
                     >
-                      <b-avatar
-                        v-if="conv.type === 'dm'"
-                        variant="light"
-                        crossorigin
-                        :src="`https://images.hive.blog/u/${conv.members[0]}/avatar`"
-                        class="border"
-                        size="3rem"
-                      />
-                      <b-avatar
-                        v-else
-                        variant="dark"
-                        crossorigin
-                        class="border"
-                        size="3rem"
+                      &nbsp;&middot;
+                      <b-dropdown
+                        class="message-menu"
+                        size="sm"
+                        variant="link"
+                        toggle-class="text-decoration-none"
+                        no-caret
                       >
-                        <v-icon name="users" />
-                      </b-avatar>
-                    </b-col>
-
-                    <b-col
-                      cols="8"
-                      md="10"
-                      lg="7"
-                      align-self="center"
-                      class="pr-0 p-lg-0 username"
-                    >
-                      {{ conv.name }}
-                    </b-col>
-
-                    <b-col
-                      cols="1"
-                      lg="2"
-                      align-self="center"
-                      class="pl-0 text-right"
-                    >
-                      <b-badge v-if="conv.unread > 0" variant="danger">
-                        {{ conv.unread }}
-                      </b-badge>
-                    </b-col>
-                  </b-row>
+                        <template #button-content>
+                          <v-icon name="more-horizontal" />
+                        </template>
+                        <b-dropdown-item-button
+                          @click.prevent="requestDelete({ id: message.id })"
+                        >
+                          Delete
+                        </b-dropdown-item-button>
+                      </b-dropdown>
+                    </template>
+                  </div>
                 </div>
               </template>
 
               <template v-else>
-                <div class="text-center align-center">
-                  No chats found
+                <div class="text-center">
+                  <span
+                    v-if="!conversation_id"
+                  >Please select a conversation or start a new one!</span>
+                  <span v-else>Send a new message</span>
+                </div>
+              </template>
+
+              <template v-if="isBlocked">
+                <div class="text-center h6">
+                  BLOCKED! You can not message this user.
                 </div>
               </template>
             </div>
-          </b-col>
 
-          <b-col lg="8" class="mt-3">
-            <div class="column-header">
-              <b-row class="w-100" align-v="center">
-                <b-col cols="11">
-                  <p v-if="conversation_id" class="m-0 h6 conversation-name">
-                    <template v-if="type === 'dm'">
-                      <v-icon name="user" />
-                      &nbsp; Conversation with @{{ conversation_name }}
-                    </template>
-                    <template v-else-if="type === 'group' || type === 'channel'">
-                      <v-icon name="users" />
-                      &nbsp; {{ conversation_name }}
-                    </template>
-                  </p>
-                </b-col>
-                <b-col class="text-right" cols="1">
-                  <b-dropdown
-                    size="sm"
-                    variant="link"
-                    right
-                    toggle-class="text-decoration-none"
-                    no-caret
-                  >
-                    <template #button-content>
-                      <v-icon name="more-vertical" />
-                    </template>
-                    <b-dropdown-item-button
-                      v-if="type === 'dm'"
-                      @click.prevent="
-                        requestFollow({ username: to, follow: !isFollowing(to) })
-                      "
-                    >
-                      {{ isFollowing ? "Unfollow" : "Follow" }}
-                    </b-dropdown-item-button>
-                    <b-dropdown-item-button
-                      v-if="type === 'dm' && !isUserBlocked(to)"
-                      @click.prevent="blockUser"
-                    >
-                      Block
-                    </b-dropdown-item-button>
-                    <b-dropdown-item-button
-                      v-if="type === 'dm' && isUserBlocked(to)"
-                      @click.prevent="unblockUser"
-                    >
-                      Unblock
-                    </b-dropdown-item-button>
-                    <b-dropdown-item-button
-                      v-if="type === 'group' || type === 'channel'"
-                      @click.prevent="leaveConversation"
-                    >
-                      Leave
-                    </b-dropdown-item-button>
-                    <b-dropdown-item-button
-                      v-if="(type === 'group' || type === 'channel') && isCreator"
-                      @click.prevent="$bvModal.show('renameConversation')"
-                    >
-                      Rename
-                    </b-dropdown-item-button>
-                    <b-dropdown-item-button
-                      v-if="type === 'group' || type === 'channel'"
-                      @click.prevent="$bvModal.show('manageMembers')"
-                    >
-                      Members
-                    </b-dropdown-item-button>
-                  </b-dropdown>
-                </b-col>
-              </b-row>
-            </div>
-
-            <div class="messages">
-              <div
-                v-chat-scroll="{ always: false, smooth: true }"
-                class="messages-container"
-                @v-chat-scroll-top-reached="loadMoreMessages"
-                @scroll="onScroll"
-              >
-                <template v-if="groupedMessages.length > 0">
-                  <div
-                    v-for="message of groupedMessages"
-                    :key="message.message_id"
-                    class="message"
-                    :class="
-                      message.from === username
-                        ? 'sent-message'
-                        : 'received-message'
-                    "
-                  >
-                    <div
-                      class="content text-light"
-                      :class="
-                        message.from === username ? 'bg-primary' : 'bg-secondary'
-                      "
-                      v-html="processMessage(message.content)"
-                    />
-                    <div class="text-muted small pl-1">
-                      {{
-                        message.from === username ? "You" : message.from
-                      }}&nbsp;&middot;
-                      <timeago
-                        :datetime="new Date(message.timestamp)"
-                        :title="new Date(message.timestamp).toLocaleString()"
-                        :auto-update="30"
-                      />
-                      <template
-                        v-if="
-                          message.from === username ||
-                            ((conversation.type === 'group' ||
-                              conversation.type === 'channel') &&
-                              (isCreator || isModerator))
-                        "
-                      >
-                        &nbsp;&middot;
-                        <b-dropdown
-                          class="message-menu"
-                          size="sm"
-                          variant="link"
-                          toggle-class="text-decoration-none"
-                          no-caret
-                        >
-                          <template #button-content>
-                            <v-icon name="more-horizontal" />
-                          </template>
-                          <b-dropdown-item-button
-                            @click.prevent="requestDelete({ id: message.id })"
-                          >
-                            Delete
-                          </b-dropdown-item-button>
-                        </b-dropdown>
-                      </template>
-                    </div>
-                  </div>
-                </template>
-
-                <template v-else>
-                  <div class="text-center">
-                    <span
-                      v-if="!conversation_id"
-                    >Please select a conversation or start a new one!</span>
-                    <span v-else>Send a new message</span>
-                  </div>
-                </template>
-
-                <template v-if="isBlocked">
-                  <div class="text-center h6">
-                    BLOCKED! You can not message this user.
-                  </div>
-                </template>
-              </div>
-
-              <div class="message-box">
-                <div class="textarea-emoji-picker">
-                  <emoji-picker
-                    v-if="showEmojiPicker"
-                    v-click-outside="clickedOutside"
-                    emoji="heart"
-                    :show-skin-tones="false"
-                    title="beeChat"
-                    set="twitter"
-                    @select="selectEmoji"
-                  />
-
-                  <span
-                    class="emoji-trigger"
-                    :class="{ triggered: showEmojiPicker }"
-                    @mousedown.prevent="toggleEmojiPicker"
-                  >
-                    <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
-                      <path
-                        fill="#888888"
-                        d="M20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12M22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12M10,9.5C10,10.3 9.3,11 8.5,11C7.7,11 7,10.3 7,9.5C7,8.7 7.7,8 8.5,8C9.3,8 10,8.7 10,9.5M17,9.5C17,10.3 16.3,11 15.5,11C14.7,11 14,10.3 14,9.5C14,8.7 14.7,8 15.5,8C16.3,8 17,8.7 17,9.5M12,17.23C10.25,17.23 8.71,16.5 7.81,15.42L9.23,14C9.68,14.72 10.75,15.23 12,15.23C13.25,15.23 14.32,14.72 14.77,14L16.19,15.42C15.29,16.5 13.75,17.23 12,17.23Z"
-                      />
-                    </svg>
-                  </span>
-                </div>
-
-                <b-form-textarea
-                  ref="chatMessage"
-                  v-model="chat"
-                  name="chat-message"
-                  placeholder="Type something..."
-                  :disabled="disableChatBox"
-                  @keydown.enter.exact.prevent
-                  @keyup.enter.exact="sendChat"
-                  @keydown.enter.shift.exact="insertNewline"
+            <div class="message-box">
+              <div class="textarea-emoji-picker">
+                <emoji-picker
+                  v-if="showEmojiPicker"
+                  v-click-outside="clickedOutside"
+                  emoji="heart"
+                  :show-skin-tones="false"
+                  title="beeChat"
+                  set="twitter"
+                  @select="selectEmoji"
                 />
-              </div>
-            </div>
-          </b-col>
-        </b-row>
-      </template>
 
-      <manage-members-modal :conversation-id="conversation_id || ''" />
-      <rename-conversation-modal :conversation-id="conversation_id || ''" />
-      <create-conversation-modal />
-      <friendlist-modal />
-    </div>
+                <span
+                  class="emoji-trigger"
+                  :class="{ triggered: showEmojiPicker }"
+                  @mousedown.prevent="toggleEmojiPicker"
+                >
+                  <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+                    <path
+                      fill="#888888"
+                      d="M20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12M22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12M10,9.5C10,10.3 9.3,11 8.5,11C7.7,11 7,10.3 7,9.5C7,8.7 7.7,8 8.5,8C9.3,8 10,8.7 10,9.5M17,9.5C17,10.3 16.3,11 15.5,11C14.7,11 14,10.3 14,9.5C14,8.7 14.7,8 15.5,8C16.3,8 17,8.7 17,9.5M12,17.23C10.25,17.23 8.71,16.5 7.81,15.42L9.23,14C9.68,14.72 10.75,15.23 12,15.23C13.25,15.23 14.32,14.72 14.77,14L16.19,15.42C15.29,16.5 13.75,17.23 12,17.23Z"
+                    />
+                  </svg>
+                </span>
+              </div>
+
+              <b-form-textarea
+                ref="chatMessage"
+                v-model="chat"
+                name="chat-message"
+                placeholder="Type something..."
+                :disabled="disableChatBox"
+                @keydown.enter.exact.prevent
+                @keyup.enter.exact="sendChat"
+                @keydown.enter.shift.exact="insertNewline"
+              />
+            </div>
+          </div>
+        </b-col>
+      </b-row>
+    </template>
+
+    <manage-members-modal :conversation-id="conversation_id || ''" />
+    <rename-conversation-modal :conversation-id="conversation_id || ''" />
+    <create-conversation-modal />
+    <friendlist-modal />
   </div>
 </template>
 

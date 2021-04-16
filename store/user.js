@@ -1,4 +1,10 @@
-import { PrivateKey, cryptoUtils } from '@/services/hive'
+import { Asset, PrivateKey, cryptoUtils, getClient } from '@/services/hive'
+
+const toFixedWithoutRounding = (t, l = 3) => {
+  const a = 10 ** l
+  const s = t * a
+  return Math.trunc(s) / a
+}
 
 export const state = () => ({
   username: '',
@@ -205,6 +211,101 @@ export const actions = {
       data: json,
       message: `${activate ? 'Enable' : 'Disable'} Oracle`,
       eventName: 'activate-oracle-successful'
+    }
+
+    dispatch('requestCustomJson', jsonData, { root: true })
+  },
+
+  requestHEDeposit ({ state, rootState }, amount) {
+    const memo = JSON.stringify({
+      id: rootState.settings.sidechain_id,
+      json: {
+        contractName: 'hivepegged',
+        contractAction: 'buy',
+        contractPayload: {}
+      }
+    })
+
+    if (state.smartLock) {
+      const { username } = state
+      const client = getClient()
+
+      this.$router.app.$root.$bvModal.msgBoxConfirm('Are you sure?', {
+        centered: true,
+        okVariant: 'success',
+        okTitle: 'Yes'
+      })
+        .then(async (value) => {
+          if (value) {
+            try {
+              const wif = localStorage.getItem(`smartlock-${username}`)
+              const key = (wif.length > 51) ? atob(wif) : wif
+              const privateKey = PrivateKey.fromString(key)
+
+              await client.broadcast.transfer({
+                from: username,
+                to: 'honey-swap',
+                amount: Asset.from(amount, 'HIVE'),
+                memo
+              }, privateKey)
+
+              this.$eventBus.$emit('he-deposit-request-successful')
+            } catch (e) {
+              console.log(e.message)
+            }
+          }
+        })
+        .catch((e) => {
+          console.log(e.message)
+        })
+    } else {
+      window.hive_keychain.requestTransfer(state.username, 'honey-swap', Number(amount).toFixed(3), memo, 'HIVE', (r) => {
+        if (r.success) {
+          this.$eventBus.$emit('he-deposit-request-successful')
+        }
+      }, true)
+    }
+  },
+
+  requestHEWithdrawal ({ rootState, dispatch }, amount) {
+    const json = {
+      contractName: 'hivepegged',
+      contractAction: 'withdraw',
+      contractPayload: {
+        quantity: toFixedWithoutRounding(amount).toFixed(3)
+      }
+    }
+
+    const jsonData = {
+      id: rootState.settings.sidechain_id,
+      key: 'Active',
+      data: json,
+      message: 'Withdraw',
+      eventName: 'he-withdrawal-request-successful'
+    }
+
+    dispatch('requestCustomJson', jsonData, { root: true })
+  },
+
+  requestSwapTokens ({ rootState, dispatch }, { tokenPair, tokenSymbol, tokenAmount }) {
+    const json = {
+      contractName: 'marketpools',
+      contractAction: 'swapTokens',
+      contractPayload: {
+        tokenPair,
+        tokenSymbol,
+        tokenAmount: tokenAmount.toString(),
+        tradeType: 'exactInput',
+        maxSlippage: '10'
+      }
+    }
+
+    const jsonData = {
+      id: rootState.settings.sidechain_id,
+      key: 'Active',
+      data: json,
+      message: `Swap Tokens (${tokenPair})`,
+      eventName: 'he-swap-request-successful'
     }
 
     dispatch('requestCustomJson', jsonData, { root: true })

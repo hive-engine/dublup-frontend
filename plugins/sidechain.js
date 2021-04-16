@@ -59,6 +59,21 @@ export default ({ store }, inject) => {
     return contract(request)
   }
 
+  const getMarketPools = (query = {}, offset = 0, limit = 1000) => {
+    const request = {
+      method: 'find',
+      params: {
+        contract: 'marketpools',
+        table: 'pools',
+        query,
+        offset,
+        limit
+      }
+    }
+
+    return contract(request)
+  }
+
   const getNFT = (query = {}) => {
     query = { symbol: store.state.settings.symbol, ...query }
 
@@ -229,6 +244,7 @@ export default ({ store }, inject) => {
     contract,
     getBalances,
     getManagedNFTInfo,
+    getMarketPools,
     getNFT,
     getNFTInstance,
     getNFTInstances,
