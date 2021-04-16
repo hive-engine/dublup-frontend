@@ -124,18 +124,18 @@
 
         <tab-content title="Template" icon="" :lazy="true">
           <b-card>
-            <ul v-if="questionsData.length > 0" class="list-unstyled mb-0">
-              <li v-for="(q, i) of questionsData" :key="i" :class="{ 'mb-3': i < questionsData.length - 1}">
-                <radio-question
-                  :id="q.id"
-                  v-model="question"
-                  name="question"
-                  :button-value="q.id"
-                  :question="q.question"
-                  :example="q.example"
-                />
-              </li>
-            </ul>
+            <div v-if="questionsData.length > 0">
+              <radio-question
+                v-for="(q, i) of questionsData"
+                :id="q.id"
+                :key="i"
+                v-model="question"
+                name="question"
+                :button-value="q.id"
+                :question="q.question"
+                :example="q.example"
+              />
+            </div>
 
             <div v-else class="text-center mt-5 mb-5 h6">
               <p> No templates are found for this market type!</p>

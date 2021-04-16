@@ -20,7 +20,7 @@ export const getters = {
   isAdmin: state => state.admin,
   isOracle: (state) => {
     if (state.profile && state.profile.oracle !== undefined) {
-      return state.profile.oracle
+      return state.profile.oracle.registered
     }
 
     return false
@@ -191,6 +191,20 @@ export const actions = {
       data: json,
       message: 'Register Oracle',
       eventName: 'register-oracle-successful'
+    }
+
+    dispatch('requestCustomJson', jsonData, { root: true })
+  },
+
+  requestActivateOracle ({ rootState, dispatch }, activate) {
+    const json = { action: 'activate-oracle', payload: { activate } }
+
+    const jsonData = {
+      id: rootState.settings.app_id,
+      key: 'Active',
+      data: json,
+      message: `${activate ? 'Enable' : 'Disable'} Oracle`,
+      eventName: 'activate-oracle-successful'
     }
 
     dispatch('requestCustomJson', jsonData, { root: true })

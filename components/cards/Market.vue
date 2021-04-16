@@ -23,7 +23,7 @@
     <ul class="outcomes">
       <li v-for="(outcome, o) of Object.keys(market.possible_outcomes_pct)" :key="o">
         <div class="outcome-details">
-          <span>{{ outcome }}</span> <span>{{ market.possible_outcomes_pct[outcome] }}%</span>
+          <span>{{ outcome }}</span> <span>{{ market.possible_outcomes[outcome] }} <span class="small">({{ market.possible_outcomes_pct[outcome] }}%)</span></span>
         </div>
         <b-progress :value="market.possible_outcomes_pct[outcome]" :max="100" height="5px" />
       </li>

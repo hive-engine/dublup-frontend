@@ -1,7 +1,6 @@
 <template>
   <footer class="footer">
     <div class="container">
-      <hr>
       <ul class="list-inline text-center mb-3">
         <li class="list-inline-item">
           <nuxt-link :to="{name:'faq'}">

@@ -2,7 +2,7 @@
   <div>
     <Header />
 
-    <div class="container mt-5">
+    <div class="container">
       <Nuxt />
     </div>
 
@@ -145,9 +145,17 @@ export default {
         })
 
         this.$eventBus.$emit('register-oracle-notification')
-      }
+      } else if (message.type === 'activate-oracle') {
+        const payload = JSON.parse(message.payload)
 
-      if (message.type === 'create-market') {
+        this.$notify({
+          title: `Oracle ${payload.activate ? 'Activated' : 'Deactivated'}`,
+          type: 'success',
+          text: `You have successfully ${payload.activate ? 'activated' : 'deactivated'} oracle.`
+        })
+
+        this.$eventBus.$emit('register-oracle-notification')
+      } else if (message.type === 'create-market') {
         const payload = JSON.parse(message.payload)
 
         this.$notify({
@@ -157,9 +165,7 @@ export default {
         })
 
         this.$eventBus.$emit('create-market-notification', payload)
-      }
-
-      if (message.type === 'buy-shares') {
+      } else if (message.type === 'buy-shares') {
         const payload = JSON.parse(message.payload)
 
         this.$notify({
@@ -169,9 +175,7 @@ export default {
         })
 
         this.$eventBus.$emit('buy-shares-notification', payload)
-      }
-
-      if (message.type === 'report-outcome') {
+      } else if (message.type === 'report-outcome') {
         const payload = JSON.parse(message.payload)
 
         this.$notify({
@@ -181,9 +185,7 @@ export default {
         })
 
         this.$eventBus.$emit('report-outcome-notification', payload)
-      }
-
-      if (message.type === 'hide-market') {
+      } else if (message.type === 'hide-market') {
         const payload = JSON.parse(message.payload)
 
         this.$notify({
@@ -193,13 +195,9 @@ export default {
         })
 
         this.$eventBus.$emit('hide-market-notification', payload)
-      }
-
-      if (message.type === 'update-settings') {
+      } else if (message.type === 'update-settings') {
         await this.fetchSettings()
-      }
-
-      if (message.type === 'settings-updated') {
+      } else if (message.type === 'settings-updated') {
         const payload = JSON.parse(message.payload)
 
         this.$notify({

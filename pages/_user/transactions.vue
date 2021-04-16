@@ -71,6 +71,10 @@
               registered as an oracle.
             </template>
 
+            <template v-else-if="transaction.type === 'activate-oracle'">
+              {{ transaction.data.activate ? 'activated':'deactivated' }} your oracle.
+            </template>
+
             <template v-else-if="transaction.type === 'hide-market'">
               hidden a market. Market ID: <nuxt-link :to="{name:'market-market', params: {market: transaction.market_id}}">
                 {{ transaction.market_id }}

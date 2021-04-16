@@ -1,7 +1,7 @@
 <template>
   <div class="resolution-rules">
     <ul v-for="(rule, i) of resolutionRules" :key="i" class="list-unstyled">
-      <li class="bg-light border p-2">
+      <li class="bg-light p-3">
         {{ rule }}
       </li>
     </ul>
