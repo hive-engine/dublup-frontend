@@ -67,19 +67,21 @@
             (UTC-0)
           </p>
 
-          <h5 class="mt-3">
-            Outcomes
-          </h5><hr>
+          <client-only>
+            <h5 class="mt-3">
+              Outcomes
+            </h5><hr>
 
-          <table class="table table-sm table-borderless">
-            <tr v-for="(poutcome,i) of Object.keys(market.possible_outcomes_pct)" :key="i">
-              <td>{{ poutcome }}</td>
-              <td>{{ market.possible_outcomes[poutcome] }} SHARES</td>
-              <td>{{ market.possible_outcomes_pct[poutcome] }}%</td>
-            </tr>
-          </table>
+            <table class="table table-sm table-borderless">
+              <tr v-for="(poutcome,i) of Object.keys(market.possible_outcomes_pct)" :key="i">
+                <td>{{ poutcome }}</td>
+                <td>{{ market.possible_outcomes[poutcome] }} SHARES</td>
+                <td>{{ market.possible_outcomes_pct[poutcome] }}%</td>
+              </tr>
+            </table>
 
-          Total pool: {{ market.liquidity.amount }} {{ market.liquidity.symbol }}
+            Total pool: {{ market.liquidity.amount }} {{ market.liquidity.symbol }}
+          </client-only>
         </b-col>
 
         <b-col cols="12" sm="6">
@@ -262,6 +264,48 @@
         </b-col>
       </b-row>
 
+      <b-card title="Payout Calculator" class="mt-3">
+        <b-row>
+          <b-col>
+            <b-form-group label="Winning Outcome">
+              <b-form-select
+                v-model="calculator.outcome"
+                :options="[{value:null, text:'Select an outcome'},...Object.keys(market.possible_outcomes)]"
+                :state="$v.calculator.outcome.$dirty ? !$v.calculator.outcome.$error : null"
+              />
+            </b-form-group>
+          </b-col>
+
+          <b-col>
+            <b-form-group label="Winning Shares">
+              <b-form-input v-model.number="calculator.shares" type="number" min="1" :state="$v.calculator.shares.$dirty ? !$v.calculator.shares.$error : null" />
+            </b-form-group>
+
+            <b-form-checkbox v-model="calculator.new_shares" :value="true">
+              New Shares
+            </b-form-checkbox>
+          </b-col>
+
+          <b-col>
+            <b-form-group label="Cost">
+              {{ potentialPayout.cost }} {{ market.liquidity.symbol }}
+            </b-form-group>
+          </b-col>
+
+          <b-col>
+            <b-form-group label="Total Pool">
+              {{ potentialPayout.pool }} {{ market.liquidity.symbol }}
+            </b-form-group>
+          </b-col>
+
+          <b-col>
+            <b-form-group label="Potential Payout">
+              {{ potentialPayout.payout }} {{ market.liquidity.symbol }}
+            </b-form-group>
+          </b-col>
+        </b-row>
+      </b-card>
+
       <h4 class="mt-5">
         Resolution Details
       </h4>
@@ -318,7 +362,13 @@ export default {
       perPage: 10,
       sortBy: 'price',
       filterOn: ['outcome'],
-      filteredItems: null
+      filteredItems: null,
+
+      calculator: {
+        outcome: null,
+        share: '',
+        new_shares: false
+      }
     }
   },
 
@@ -407,6 +457,34 @@ export default {
         .sort((a, b) => a.price - b.price)
         .slice(0, self.buyQuantity)
         .reduce((acc, cur) => acc + cur.price, 0), 3)
+    },
+
+    potentialPayout () {
+      let payout = 0
+      let cost = 0
+      let pool = this.market.liquidity.amount
+      const possibleOutcomes = JSON.parse(JSON.stringify(this.market.possible_outcomes))
+      const shares = Math.round(this.calculator.shares)
+
+      if (this.calculator.outcome && shares > 0) {
+        cost = shares * this.market.share_price.amount
+        pool = this.market.liquidity.amount
+
+        if (this.calculator.new_shares) {
+          pool += cost
+          possibleOutcomes[this.calculator.outcome] += shares
+        }
+
+        const totalSharesForOutcome = possibleOutcomes[this.calculator.outcome]
+        const totalParticipationReward = pool * this.settings.participants_reward_share
+        payout = (shares / totalSharesForOutcome) * totalParticipationReward
+      }
+
+      return {
+        cost,
+        pool,
+        payout
+      }
     }
   },
 
@@ -418,6 +496,20 @@ export default {
           this.showLoadingOverlay()
         } else {
           this.hideLoadingOverlay()
+        }
+      }
+    },
+
+    'calculator.outcome': {
+      handler () {
+        this.calculator.shares = ''
+      }
+    },
+
+    'calculator.shares': {
+      handler (v) {
+        if (this.calculator.outcome && this.market.possible_outcomes[this.calculator.outcome] < v && !this.calculator.new_shares) {
+          this.calculator.new_shares = true
         }
       }
     }
@@ -507,6 +599,16 @@ export default {
       required,
       numeric,
       minValue: minValue(1)
+    },
+
+    calculator: {
+      outcome: {
+        required
+      },
+
+      shares: {
+        required
+      }
     },
 
     buyShares: ['outcome', 'quantity'],

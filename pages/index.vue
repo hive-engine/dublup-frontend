@@ -78,6 +78,12 @@ export default {
     await this.fetchMarkets(query)
   },
 
+  head () {
+    return {
+      title: 'Home'
+    }
+  },
+
   computed: {
     ...mapGetters('market', ['markets', 'pagination'])
   },

@@ -89,6 +89,12 @@ export default {
     }
   },
 
+  head () {
+    return {
+      title: 'Admin Dashboard'
+    }
+  },
+
   computed: {
     ...mapGetters(['settings']),
     ...mapGetters('admin', ['market'])
