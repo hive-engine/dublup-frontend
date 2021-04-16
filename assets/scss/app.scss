@@ -815,17 +815,14 @@ legend {
 .transactions,
 .create-market,
 .messaging,
-.reporting-center {
+.reporting-center,
+.settled-markets {
   margin-top: 3rem;
   min-height: calc(100vh - 245px);
 }
 
 .home {
   margin-top: 0;
-}
-
-.badge {
-  padding: 0.5rem 0.5em 0.6rem;
 }
 
 .list-inline-item {

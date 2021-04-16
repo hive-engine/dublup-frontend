@@ -24,6 +24,10 @@
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">
+            <b-nav-item :to="{ name: 'history' }">
+              <v-icon class="d-lg-none d-xl-inline" name="box" />&nbsp; History
+            </b-nav-item>
+
             <b-nav-item
               v-if="!isAuthenticated"
               @click.prevent="$bvModal.show('loginModal')"
