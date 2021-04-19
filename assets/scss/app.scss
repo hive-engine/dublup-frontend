@@ -399,8 +399,6 @@ hr {
   }
 }
 
-/* crucial web edits */
-
 html,
 body,
 .vld-overlay,
@@ -434,6 +432,10 @@ table {
   td {
     border-top: 0px solid transparent !important;
   }
+}
+
+select option {
+  background: #323232 !important;;
 }
 
 .modal table th {
@@ -510,11 +512,6 @@ table {
 .b-form-datepicker,
 .b-form-timepicker {
   padding-bottom: 0.1rem;
-}
-
-.custom-select,
-.inline-input {
-  padding-top: 0.15rem;
 }
 
 .custom-select {
