@@ -27,7 +27,7 @@
     <b-modal id="depositHEModal" title="Deposit">
       <b-form-group label="Current Balance">
         <div class="form-text">
-          {{ quoteBalance }} {{ quoteSymbol }}
+          {{ baseBalance }} {{ baseSymbol }}
         </div>
       </b-form-group>
 
@@ -53,12 +53,12 @@
     <b-modal id="withdrawHEModal" title="Withdraw">
       <b-form-group label="Available Balance">
         <div class="form-text">
-          <a href="#" @click.prevent="withdrawHEAmount = quoteBalance">{{ quoteBalance }} {{ quoteSymbol }}</a>
+          <a href="#" @click.prevent="withdrawHEAmount = baseBalance">{{ baseBalance }} {{ baseSymbol }}</a>
         </div>
       </b-form-group>
 
       <b-form-group label="Amount">
-        <b-input-group :append="quoteSymbol">
+        <b-input-group :append="baseSymbol">
           <b-form-input
             v-model.number="withdrawHEAmount"
             type="number"
@@ -70,8 +70,8 @@
       </b-form-group>
 
       <template #modal-footer>
-        <b-button variant="primary" :disabled="withdrawHEAmount <= 0 || withdrawHEAmount > quoteBalance" @click="requestHEWithdrawal(withdrawHEAmount)">
-          Withdraw {{ quoteSymbol }}
+        <b-button variant="primary" :disabled="withdrawHEAmount <= 0 || withdrawHEAmount > baseBalance" @click="requestHEWithdrawal(withdrawHEAmount)">
+          Withdraw {{ baseSymbol }}
         </b-button>
       </template>
     </b-modal>
