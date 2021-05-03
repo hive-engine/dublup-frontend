@@ -906,10 +906,10 @@ textarea::placeholder {
 .wizard-nav-pills {
   .wizard-icon-circle {
     border-color: #808181 !important;
-    background: transparent !important;
+    background: #383838 !important;
 
     .wizard-icon {
-      color: #808181 !important;
+      color: #fff !important;
     }
   }
 
@@ -943,6 +943,7 @@ textarea::placeholder {
   background-color: rgba($color: #fff, $alpha: 0.1);
   border: 1px solid rgba($color: #fff, $alpha: 0.2);
 
+  &.focus,
   &:focus {
     background-color: rgba($color: #fff, $alpha: 0.2);
     color: white;
